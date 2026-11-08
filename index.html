@@ -202,12 +202,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--ow);color:var(--td);min-h
   </div>
   <!-- MONTH SELECTOR -->
   <div class="month-bar">
+    <button class="mbtn" onclick="setMonth('jan')">📅 January</button>
     <button class="mbtn active" onclick="setMonth('feb')">📅 February</button>
     <button class="mbtn" onclick="setMonth('mar')">📅 March</button>
     <button class="mbtn" onclick="setMonth('apr')">📅 April</button>
+    <button class="mbtn" onclick="setMonth('may')">📅 May</button>
     <button class="mbtn" onclick="setMonth('jun')">📅 June</button>
     <button class="mbtn" onclick="setMonth('jul')">📅 July</button>
     <button class="mbtn" onclick="setMonth('aug')">📅 August</button>
+    <button class="mbtn" onclick="setMonth('sep')">📅 September</button>
+    <button class="mbtn" onclick="setMonth('oct')">📅 October</button>
     <button class="mbtn" onclick="setMonth('ytd')">📊 YTD</button>
   </div>
   <!-- NAV TABS -->
@@ -261,134 +265,198 @@ body{font-family:'DM Sans',sans-serif;background:var(--ow);color:var(--td);min-h
 // DATA — All months, all stores
 // ════════════════════════════════════════════════════════
 const MONTHS = {
-  feb: {
-    label:"February 2025", short:"Feb",
-    note:"Monthly data — February 2025",
+  jan: {
+    label:"January 2026", short:"Jan",
+    note:"Monthly data — January 2026 (sales data only)",
     stores:[
-      {name:"Hazm Al Markhiya",sales:552130.83,salesLY:8.32,cc:3949.89,ccLY:3.51,basket:139.7837,basketLY:4.65,intensity:6785.71,agg:16.24,ecom:0.71,sco_pct:13.39,avail:79.86,wnf:-0.10473,wf:-3.45260,fmcg:62.99,fresh:24.47,nonfood:12.32,tam:1.57,staff:163,skus:38729,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
-      {name:"Azghawa Old",sales:273150.44,salesLY:41.16,cc:1952.53,ccLY:21.34,basket:139.8959,basketLY:16.34,intensity:3650.12,agg:null,ecom:null,sco_pct:20.16,avail:80.86,wnf:-0.11948,wf:-4.32911,fmcg:69.43,fresh:20.28,nonfood:10.13,tam:2.54,staff:85,skus:56781,totalShops:10,occShops:0,totalKiosks:0,occKiosks:0},
-      {name:"Khalifa South",sales:181022.37,salesLY:-3.65,cc:2859.17,ccLY:-1.33,basket:63.3129,basketLY:-2.35,intensity:2983.89,agg:null,ecom:null,sco_pct:null,avail:86.58,wnf:-0.24111,wf:-3.55955,fmcg:70.64,fresh:22.99,nonfood:6.22,tam:2.52,staff:66,skus:35709,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
-      {name:"Leabaib 1",sales:255518.78,salesLY:2.57,cc:2211.39,ccLY:-1.19,basket:115.5464,basketLY:3.81,intensity:2607.33,agg:25.90,ecom:1.21,sco_pct:17.77,avail:85.09,wnf:-0.19355,wf:-5.60684,fmcg:73.50,fresh:16.98,nonfood:9.32,tam:2.28,staff:108,skus:36124,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
-      {name:"Rawdath Ekdeem",sales:274268.19,salesLY:12.59,cc:2325.11,ccLY:7.40,basket:117.9595,basketLY:4.83,intensity:3861.12,agg:23.50,ecom:null,sco_pct:null,avail:84.37,wnf:-0.18368,wf:-4.07697,fmcg:76.30,fresh:16.49,nonfood:7.02,tam:3.78,staff:75,skus:34308,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-      {name:"Rawdat Al Hamama",sales:294585.88,salesLY:33.96,cc:2025.53,ccLY:36.28,basket:145.4367,basketLY:-1.71,intensity:3562.10,agg:20.91,ecom:0.48,sco_pct:null,avail:84.91,wnf:-0.11188,wf:-3.32391,fmcg:76.02,fresh:15.35,nonfood:8.47,tam:3.15,staff:97,skus:35018,totalShops:10,occShops:10,totalKiosks:1,occKiosks:1},
-      {name:"Leabaib 2",sales:143033.09,salesLY:16.22,cc:1615.20,ccLY:3.93,basket:88.5546,basketLY:11.83,intensity:2182.60,agg:null,ecom:null,sco_pct:null,avail:82.35,wnf:-0.28826,wf:-5.00104,fmcg:74.18,fresh:17.90,nonfood:7.75,tam:3.64,staff:60,skus:58116,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-      {name:"Thakira",sales:132025.65,salesLY:9.75,cc:1419.39,ccLY:7.27,basket:93.0155,basketLY:2.31,intensity:2252.997,agg:null,ecom:null,sco_pct:null,avail:79.87,wnf:-0.21909,wf:-3.81827,fmcg:70.80,fresh:22.20,nonfood:6.85,tam:1.59,staff:54,skus:45553,totalShops:6,occShops:6,totalKiosks:4,occKiosks:3},
-      {name:"Al Khor",sales:172869.67,salesLY:18.34,cc:1406.43,ccLY:18.54,basket:122.9134,basketLY:-0.16,intensity:1927.198,agg:17.50,ecom:0.21,sco_pct:null,avail:87.17,wnf:-0.16069,wf:-3.59417,fmcg:71.01,fresh:19.38,nonfood:9.46,tam:1.81,staff:86,skus:32379,totalShops:6,occShops:5,totalKiosks:0,occKiosks:0},
-      {name:"Umm Qarn",sales:182797.56,salesLY:16.52,cc:1374.54,ccLY:8.06,basket:132.9882,basketLY:7.82,intensity:3124.744,agg:null,ecom:0.07,sco_pct:null,avail:84.59,wnf:-0.13468,wf:-3.27261,fmcg:74.76,fresh:16.61,nonfood:8.46,tam:3.66,staff:76,skus:31252,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+      {name:"Hazm Al Markhiya",sales:504636.93,salesLY:3.89,cc:3742.52,ccLY:2.12,basket:134.8389,basketLY:1.73,intensity:6202.01,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Azghawa Old",sales:225319.63,salesLY:35.47,cc:1754.61,ccLY:21.63,basket:128.4156,basketLY:11.38,intensity:3010.95,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Khalifa South",sales:158672.1,salesLY:-15.54,cc:2705.65,ccLY:-2.16,basket:58.6448,basketLY:-13.67,intensity:2615.47,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Leabaib 1",sales:227762.95,salesLY:-2.42,cc:2122.16,ccLY:-1.79,basket:107.3259,basketLY:-0.65,intensity:2324.11,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Rawdath Ekdeem",sales:233620.8,salesLY:7.77,cc:2141.61,ccLY:7.48,basket:109.0864,basketLY:0.27,intensity:3288.89,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Rawdat Al Hamama",sales:255776.85,salesLY:31.47,cc:1877.48,ccLY:37.19,basket:136.2338,basketLY:-4.17,intensity:3092.83,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Leabaib 2",sales:124488.31,salesLY:10.34,cc:1519.0,ccLY:2.85,basket:81.9541,basketLY:7.28,intensity:1899.62,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Thakira",sales:117002.15,salesLY:4.46,cc:1363.35,ccLY:10.41,basket:85.8193,basketLY:-5.39,intensity:1996.62,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Al Khor",sales:142593.85,salesLY:13.43,cc:1255.13,ccLY:16.29,basket:113.6089,basketLY:-2.46,intensity:1589.68,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Umm Qarn",sales:156562.97,salesLY:11.13,cc:1270.39,ccLY:5.12,basket:123.2404,basketLY:5.72,intensity:2676.29,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+    ]
+  },
+  feb: {
+    label:"February 2026", short:"Feb",
+    note:"Monthly data — February 2026",
+    stores:[
+      {name:"Hazm Al Markhiya",sales:594703.42,salesLY:11.72,cc:4068.64,ccLY:7.26,basket:146.1675,basketLY:4.15,intensity:7308.93,agg:16.24,ecom:0.71,sco_pct:13.39,avail:79.86,wnf:-0.10473,wf:-3.45260,fmcg:62.99,fresh:24.47,nonfood:12.32,tam:1.57,staff:163,skus:38729,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:299877.99,salesLY:43.77,cc:2020.0,ccLY:24.59,basket:148.4545,basketLY:15.4,intensity:4007.28,agg:null,ecom:null,sco_pct:20.16,avail:80.86,wnf:-0.11948,wf:-4.32911,fmcg:69.43,fresh:20.28,nonfood:10.13,tam:2.54,staff:85,skus:56781,totalShops:10,occShops:0,totalKiosks:0,occKiosks:0},
+      {name:"Khalifa South",sales:195648.19,salesLY:5.28,cc:2964.5,ccLY:3.64,basket:65.997,basketLY:1.58,intensity:3224.97,agg:null,ecom:null,sco_pct:null,avail:86.58,wnf:-0.24111,wf:-3.55955,fmcg:70.64,fresh:22.99,nonfood:6.22,tam:2.52,staff:66,skus:35709,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:273025.16,salesLY:3.4,cc:2317.46,ccLY:2.8,basket:117.812,basketLY:0.59,intensity:2785.97,agg:25.90,ecom:1.21,sco_pct:17.77,avail:85.09,wnf:-0.19355,wf:-5.60684,fmcg:73.50,fresh:16.98,nonfood:9.32,tam:2.28,staff:108,skus:36124,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:288881.4,salesLY:10.97,cc:2387.11,ccLY:8.58,basket:121.0174,basketLY:2.19,intensity:4066.84,agg:23.50,ecom:null,sco_pct:null,avail:84.37,wnf:-0.18368,wf:-4.07697,fmcg:76.30,fresh:16.49,nonfood:7.02,tam:3.78,staff:75,skus:34308,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:316590.79,salesLY:32.88,cc:2080.54,ccLY:38.49,basket:152.1679,basketLY:-4.05,intensity:3828.18,agg:20.91,ecom:0.48,sco_pct:null,avail:84.91,wnf:-0.11188,wf:-3.32391,fmcg:76.02,fresh:15.35,nonfood:8.47,tam:3.15,staff:97,skus:35018,totalShops:10,occShops:10,totalKiosks:1,occKiosks:1},
+      {name:"Leabaib 2",sales:151721.38,salesLY:18.96,cc:1685.71,ccLY:7.59,basket:90.0042,basketLY:10.57,intensity:2315.18,agg:null,ecom:null,sco_pct:null,avail:82.35,wnf:-0.28826,wf:-5.00104,fmcg:74.18,fresh:17.90,nonfood:7.75,tam:3.64,staff:60,skus:58116,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:141736.91,salesLY:14.33,cc:1480.46,ccLY:9.77,basket:95.7381,basketLY:4.15,intensity:2418.72,agg:null,ecom:null,sco_pct:null,avail:79.87,wnf:-0.21909,wf:-3.81827,fmcg:70.80,fresh:22.20,nonfood:6.85,tam:1.59,staff:54,skus:45553,totalShops:6,occShops:6,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:190722.94,salesLY:15.71,cc:1454.32,ccLY:19.31,basket:131.1422,basketLY:-3.02,intensity:2126.23,agg:17.50,ecom:0.21,sco_pct:null,avail:87.17,wnf:-0.16069,wf:-3.59417,fmcg:71.01,fresh:19.38,nonfood:9.46,tam:1.81,staff:86,skus:32379,totalShops:6,occShops:5,totalKiosks:0,occKiosks:0},
+      {name:"Umm Qarn",sales:195159.74,salesLY:18.48,cc:1413.0,ccLY:12.03,basket:138.1173,basketLY:5.76,intensity:3336.06,agg:null,ecom:0.07,sco_pct:null,avail:84.59,wnf:-0.13468,wf:-3.27261,fmcg:74.76,fresh:16.61,nonfood:8.46,tam:3.66,staff:76,skus:31252,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
     ]
   },
   mar: {
-    label:"March 2025", short:"Mar",
-    note:"Monthly data — March 2025",
+    label:"March 2026", short:"Mar",
+    note:"Monthly data — March 2026",
     stores:[
-      {name:"Hazm Al Markhiya",sales:536224.34,salesLY:5.23,cc:3926.82,ccLY:3.59,basket:136.5543,basketLY:1.59,intensity:6590.22,agg:16.97,ecom:0.81,sco_pct:13.26,avail:80.29,wnf:-0.12670,wf:-3.48631,fmcg:64.06,fresh:24.59,nonfood:11.13,tam:1.59,staff:164,skus:38729,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
-      {name:"Azghawa Old",sales:266597.22,salesLY:36.45,cc:1941.29,ccLY:19.93,basket:137.3296,basketLY:13.78,intensity:3562.55,agg:null,ecom:null,sco_pct:19.52,avail:80.66,wnf:-0.14055,wf:-4.14332,fmcg:69.68,fresh:20.47,nonfood:9.69,tam:2.43,staff:85,skus:56781,totalShops:10,occShops:0,totalKiosks:0,occKiosks:0},
-      {name:"Khalifa South",sales:180400.39,salesLY:-0.87,cc:2837.86,ccLY:-1.62,basket:63.5691,basketLY:0.76,intensity:2973.63,agg:null,ecom:null,sco_pct:null,avail:86.04,wnf:-0.27814,wf:-3.56306,fmcg:70.83,fresh:22.82,nonfood:6.21,tam:2.40,staff:67,skus:35709,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
-      {name:"Leabaib 1",sales:251260.25,salesLY:4.08,cc:2201.94,ccLY:0.04,basket:114.1087,basketLY:4.05,intensity:2563.88,agg:26.37,ecom:1.21,sco_pct:17.61,avail:83.99,wnf:-0.20527,wf:-7.20710,fmcg:73.51,fresh:17.14,nonfood:9.15,tam:2.19,staff:108,skus:36124,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
-      {name:"Rawdath Ekdeem",sales:272312.91,salesLY:13.20,cc:2333.05,ccLY:7.82,basket:116.7196,basketLY:4.99,intensity:3833.59,agg:23.90,ecom:null,sco_pct:null,avail:83.22,wnf:-0.17711,wf:-3.98858,fmcg:76.58,fresh:16.46,nonfood:6.76,tam:3.49,staff:76,skus:34308,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-      {name:"Rawdat Al Hamama",sales:288539.68,salesLY:32.34,cc:2011.95,ccLY:33.22,basket:143.4131,basketLY:-0.67,intensity:3488.99,agg:20.94,ecom:0.59,sco_pct:null,avail:84.23,wnf:-0.15165,wf:-3.25726,fmcg:76.08,fresh:15.56,nonfood:8.19,tam:3.25,staff:97,skus:35018,totalShops:8,occShops:8,totalKiosks:1,occKiosks:1},
-      {name:"Leabaib 2",sales:140209.48,salesLY:15.69,cc:1601.95,ccLY:3.31,basket:87.5244,basketLY:11.99,intensity:2139.51,agg:null,ecom:null,sco_pct:null,avail:81.92,wnf:-0.33399,wf:-5.00761,fmcg:74.36,fresh:17.87,nonfood:7.59,tam:3.50,staff:60,skus:58116,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-      {name:"Thakira",sales:128582.66,salesLY:7.79,cc:1402.24,ccLY:5.19,basket:91.6979,basketLY:2.47,intensity:2194.24,agg:null,ecom:null,sco_pct:null,avail:79.79,wnf:-0.22512,wf:-3.71262,fmcg:70.95,fresh:22.45,nonfood:6.45,tam:1.53,staff:53,skus:45553,totalShops:6,occShops:6,totalKiosks:4,occKiosks:3},
-      {name:"Al Khor",sales:168464.04,salesLY:17.71,cc:1399.47,ccLY:17.80,basket:120.3767,basketLY:-0.08,intensity:1878.08,agg:17.87,ecom:0.23,sco_pct:null,avail:86.35,wnf:-0.17293,wf:-3.78707,fmcg:71.03,fresh:19.98,nonfood:8.83,tam:1.73,staff:86,skus:32379,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
-      {name:"Umm Qarn",sales:178477.84,salesLY:15.58,cc:1365.46,ccLY:7.41,basket:130.7086,basketLY:7.61,intensity:3050.90,agg:null,ecom:0.12,sco_pct:null,avail:84.12,wnf:-0.15654,wf:-3.47010,fmcg:74.99,fresh:16.80,nonfood:8.05,tam:3.54,staff:75,skus:31252,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+      {name:"Hazm Al Markhiya",sales:521438.27,salesLY:0.27,cc:3968.81,ccLY:0.32,basket:131.3842,basketLY:-0.04,intensity:6408.5,agg:16.97,ecom:0.81,sco_pct:13.26,avail:80.29,wnf:-0.12670,wf:-3.48631,fmcg:64.06,fresh:24.59,nonfood:11.13,tam:1.59,staff:164,skus:38729,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:280386.39,salesLY:31.47,cc:2054.71,ccLY:13.65,basket:136.4603,basketLY:15.68,intensity:3746.81,agg:null,ecom:null,sco_pct:19.52,avail:80.66,wnf:-0.14055,wf:-4.14332,fmcg:69.68,fresh:20.47,nonfood:9.69,tam:2.43,staff:85,skus:56781,totalShops:10,occShops:0,totalKiosks:0,occKiosks:0},
+      {name:"Khalifa South",sales:188598.98,salesLY:5.57,cc:2855.1,ccLY:-6.96,basket:66.0569,basketLY:13.46,intensity:3108.77,agg:null,ecom:null,sco_pct:null,avail:86.04,wnf:-0.27814,wf:-3.56306,fmcg:70.83,fresh:22.82,nonfood:6.21,tam:2.40,staff:67,skus:35709,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:254623.4,salesLY:7.08,cc:2158.35,ccLY:-3.12,basket:117.9711,basketLY:10.52,intensity:2598.2,agg:26.37,ecom:1.21,sco_pct:17.61,avail:83.99,wnf:-0.20527,wf:-7.20710,fmcg:73.51,fresh:17.14,nonfood:9.15,tam:2.19,staff:108,skus:36124,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:295958.36,salesLY:16.46,cc:2453.32,ccLY:5.35,basket:120.6357,basketLY:10.54,intensity:4166.47,agg:23.90,ecom:null,sco_pct:null,avail:83.22,wnf:-0.17711,wf:-3.98858,fmcg:76.58,fresh:16.46,nonfood:6.76,tam:3.49,staff:76,skus:34308,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:296421.1,salesLY:30.11,cc:2073.45,ccLY:24.5,basket:142.9602,basketLY:4.51,intensity:3584.29,agg:20.94,ecom:0.59,sco_pct:null,avail:84.23,wnf:-0.15165,wf:-3.25726,fmcg:76.08,fresh:15.56,nonfood:8.19,tam:3.25,staff:97,skus:35018,totalShops:8,occShops:8,totalKiosks:1,occKiosks:1},
+      {name:"Leabaib 2",sales:145742.58,salesLY:15.13,cc:1605.71,ccLY:-0.89,basket:90.7652,basketLY:16.17,intensity:2223.95,agg:null,ecom:null,sco_pct:null,avail:81.92,wnf:-0.33399,wf:-5.00761,fmcg:74.36,fresh:17.87,nonfood:7.59,tam:3.50,staff:60,skus:58116,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:128750.21,salesLY:2.8,cc:1373.81,ccLY:-4.11,basket:93.7179,basketLY:7.21,intensity:2197.1,agg:null,ecom:null,sco_pct:null,avail:79.79,wnf:-0.22512,wf:-3.71262,fmcg:70.95,fresh:22.45,nonfood:6.45,tam:1.53,staff:53,skus:45553,totalShops:6,occShops:6,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:175950.27,salesLY:20.86,cc:1494.23,ccLY:16.01,basket:117.7535,basketLY:4.17,intensity:1961.54,agg:17.87,ecom:0.23,sco_pct:null,avail:86.35,wnf:-0.17293,wf:-3.78707,fmcg:71.03,fresh:19.98,nonfood:8.83,tam:1.73,staff:86,skus:32379,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+      {name:"Umm Qarn",sales:186018.05,salesLY:14.98,cc:1411.74,ccLY:4.3,basket:131.7649,basketLY:10.24,intensity:3179.8,agg:null,ecom:0.12,sco_pct:null,avail:84.12,wnf:-0.15654,wf:-3.47010,fmcg:74.99,fresh:16.80,nonfood:8.05,tam:3.54,staff:75,skus:31252,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
     ]
   },
   apr: {
-    label:"April 2025", short:"Apr",
-    note:"Monthly data — April 2025",
+    label:"April 2026", short:"Apr",
+    note:"Monthly data — April 2026",
     stores:[
-      {name:"Hazm Al Markhiya",sales:522388.28,salesLY:5.09,cc:3919.76,ccLY:3.33,basket:133.2705,basketLY:1.71,intensity:6420.18,agg:17.80,ecom:1.03,sco_pct:14.17,avail:81.17,wnf:-0.12894,wf:-3.69192,fmcg:64.11,fresh:25.21,nonfood:10.44,tam:1.57,staff:163,skus:37382,totalShops:18,occShops:17,totalKiosks:0,occKiosks:0},
-      {name:"Azghawa Old",sales:257528.74,salesLY:32.61,cc:1932.40,ccLY:18.04,basket:133.2689,basketLY:12.34,intensity:3441.36,agg:null,ecom:null,sco_pct:19.88,avail:80.28,wnf:-0.14892,wf:-4.12674,fmcg:69.65,fresh:21.22,nonfood:8.94,tam:2.38,staff:84,skus:42009,totalShops:10,occShops:0,totalKiosks:0,occKiosks:0},
-      {name:"Khalifa South",sales:176563.49,salesLY:0.73,cc:2826.83,ccLY:-0.39,basket:62.4598,basketLY:1.12,intensity:2910.39,agg:null,ecom:null,sco_pct:null,avail:84.97,wnf:-0.29144,wf:-4.02785,fmcg:70.61,fresh:23.04,nonfood:6.17,tam:2.37,staff:67,skus:35144,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
-      {name:"Leabaib 1",sales:247126.22,salesLY:5.13,cc:2228.43,ccLY:1.99,basket:110.8973,basketLY:3.08,intensity:2521.70,agg:26.71,ecom:1.35,sco_pct:18.06,avail:81.80,wnf:-0.19602,wf:-6.75085,fmcg:73.22,fresh:17.86,nonfood:8.70,tam:2.10,staff:108,skus:35633,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
-      {name:"Rawdath Ekdeem",sales:267167.15,salesLY:13.41,cc:2345.37,ccLY:8.08,basket:113.9127,basketLY:4.93,intensity:3761.15,agg:24.66,ecom:0.00,sco_pct:null,avail:80.92,wnf:-0.19189,wf:-4.10493,fmcg:76.11,fresh:17.12,nonfood:6.55,tam:3.44,staff:75,skus:33483,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-      {name:"Rawdat Al Hamama",sales:281986.14,salesLY:29.37,cc:2018.15,ccLY:30.67,basket:139.7251,basketLY:-0.99,intensity:3409.75,agg:21.38,ecom:0.81,sco_pct:null,avail:82.86,wnf:-0.15472,wf:-3.28005,fmcg:75.67,fresh:16.34,nonfood:7.81,tam:3.20,staff:100,skus:34237,totalShops:8,occShops:8,totalKiosks:2,occKiosks:1},
-      {name:"Leabaib 2",sales:135650.37,salesLY:14.60,cc:1584.35,ccLY:2.60,basket:85.6189,basketLY:11.69,intensity:2069.94,agg:null,ecom:null,sco_pct:null,avail:81.07,wnf:-0.35451,wf:-5.15721,fmcg:74.06,fresh:18.32,nonfood:7.42,tam:3.48,staff:60,skus:43278,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-      {name:"Thakira",sales:125098.21,salesLY:6.83,cc:1390.65,ccLY:4.22,basket:89.9566,basketLY:2.50,intensity:2134.78,agg:null,ecom:null,sco_pct:null,avail:79.63,wnf:-0.24547,wf:-3.85248,fmcg:70.70,fresh:22.85,nonfood:6.27,tam:1.53,staff:55,skus:35378,totalShops:6,occShops:6,totalKiosks:4,occKiosks:3},
-      {name:"Al Khor",sales:163407.91,salesLY:17.05,cc:1394.25,ccLY:17.78,basket:117.2013,basketLY:-0.62,intensity:1821.72,agg:18.05,ecom:0.34,sco_pct:null,avail:84.71,wnf:-0.18533,wf:-4.20754,fmcg:71.01,fresh:20.31,nonfood:8.52,tam:1.71,staff:88,skus:32334,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
-      {name:"Umm Qarn",sales:173499.10,salesLY:14.62,cc:1360.43,ccLY:7.35,basket:127.5322,basketLY:6.78,intensity:2965.80,agg:null,ecom:0.24,sco_pct:null,avail:83.18,wnf:-0.15852,wf:-4.35096,fmcg:74.80,fresh:17.34,nonfood:7.68,tam:3.45,staff:74,skus:29555,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+      {name:"Hazm Al Markhiya",sales:474218.89,salesLY:4.1,cc:3913.27,ccLY:3.6,basket:121.1824,basketLY:0.48,intensity:5828.17,agg:17.80,ecom:1.03,sco_pct:14.17,avail:81.17,wnf:-0.12894,wf:-3.69192,fmcg:64.11,fresh:25.21,nonfood:10.44,tam:1.57,staff:163,skus:37382,totalShops:18,occShops:17,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:227665.95,salesLY:19.23,cc:1907.97,ccLY:12.68,basket:119.3239,basketLY:5.81,intensity:3042.31,agg:null,ecom:null,sco_pct:19.88,avail:80.28,wnf:-0.14892,wf:-4.12674,fmcg:69.65,fresh:21.22,nonfood:8.94,tam:2.38,staff:84,skus:42009,totalShops:10,occShops:0,totalKiosks:0,occKiosks:0},
+      {name:"Khalifa South",sales:164802.22,salesLY:11.2,cc:2794.37,ccLY:5.01,basket:58.9766,basketLY:5.89,intensity:2716.52,agg:null,ecom:null,sco_pct:null,avail:84.97,wnf:-0.29144,wf:-4.02785,fmcg:70.61,fresh:23.04,nonfood:6.17,tam:2.37,staff:67,skus:35144,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:235215.52,salesLY:13.37,cc:2327.53,ccLY:10.53,basket:101.0579,basketLY:2.57,intensity:2400.16,agg:26.71,ecom:1.35,sco_pct:18.06,avail:81.80,wnf:-0.19602,wf:-6.75085,fmcg:73.22,fresh:17.86,nonfood:8.70,tam:2.10,staff:108,skus:35633,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:251814.16,salesLY:17.84,cc:2405.4,ccLY:10.42,basket:104.687,basketLY:6.72,intensity:3545.01,agg:24.66,ecom:0.00,sco_pct:null,avail:80.92,wnf:-0.19189,wf:-4.10493,fmcg:76.11,fresh:17.12,nonfood:6.55,tam:3.44,staff:75,skus:33483,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:261855.27,salesLY:22.1,cc:2048.13,ccLY:23.63,basket:127.8507,basketLY:-1.24,intensity:3166.33,agg:21.38,ecom:0.81,sco_pct:null,avail:82.86,wnf:-0.15472,wf:-3.28005,fmcg:75.67,fresh:16.34,nonfood:7.81,tam:3.20,staff:100,skus:34237,totalShops:8,occShops:8,totalKiosks:2,occKiosks:1},
+      {name:"Leabaib 2",sales:121756.26,salesLY:14.08,cc:1535.2,ccLY:0.86,basket:79.3097,basketLY:13.1,intensity:1857.93,agg:null,ecom:null,sco_pct:null,avail:81.07,wnf:-0.35451,wf:-5.15721,fmcg:74.06,fresh:18.32,nonfood:7.42,tam:3.48,staff:60,skus:43278,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:114160.94,salesLY:5.4,cc:1352.43,ccLY:1.2,basket:84.4115,basketLY:4.15,intensity:1948.14,agg:null,ecom:null,sco_pct:null,avail:79.63,wnf:-0.24547,wf:-3.85248,fmcg:70.70,fresh:22.85,nonfood:6.27,tam:1.53,staff:55,skus:35378,totalShops:6,occShops:6,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:146461.3,salesLY:17.62,cc:1378.63,ccLY:18.81,basket:106.2366,basketLY:-1.01,intensity:1632.79,agg:18.05,ecom:0.34,sco_pct:null,avail:84.71,wnf:-0.18533,wf:-4.20754,fmcg:71.01,fresh:20.31,nonfood:8.52,tam:1.71,staff:88,skus:32334,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+      {name:"Umm Qarn",sales:157846.91,salesLY:13.57,cc:1351.4,ccLY:8.14,basket:116.8025,basketLY:5.02,intensity:2698.24,agg:null,ecom:0.24,sco_pct:null,avail:83.18,wnf:-0.15852,wf:-4.35096,fmcg:74.80,fresh:17.34,nonfood:7.68,tam:3.45,staff:74,skus:29555,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+    ]
+  },
+  may: {
+    label:"May 2026", short:"May",
+    note:"Monthly sales; category mix and online mix are YTD to May",
+    stores:[
+      {name:"Hazm Al Markhiya",sales:471713.07,salesLY:4.01,cc:4042.94,ccLY:6.27,basket:116.6759,basketLY:-2.12,intensity:5797.37,agg:18.58,ecom:1.27,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:64.02,fresh:25.78,nonfood:9.94,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Azghawa Old",sales:225623.2,salesLY:17.07,cc:1956.77,ccLY:10.99,basket:115.3036,basketLY:5.48,intensity:3015.01,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:69.25,fresh:22.15,nonfood:8.39,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Khalifa South",sales:162201.64,salesLY:4.18,cc:2766.29,ccLY:2.28,basket:58.6351,basketLY:1.86,intensity:2673.65,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:69.78,fresh:23.73,nonfood:6.29,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Leabaib 1",sales:239205.66,salesLY:14.54,cc:2379.03,ccLY:14.27,basket:100.5475,basketLY:0.23,intensity:2440.87,agg:27.06,ecom:1.54,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:72.64,fresh:18.47,nonfood:8.67,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Rawdath Ekdeem",sales:262824.09,salesLY:22.18,cc:2515.19,ccLY:15.93,basket:104.4946,basketLY:5.38,intensity:3700.01,agg:25.26,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:75.49,fresh:17.84,nonfood:6.42,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Rawdat Al Hamama",sales:268511.82,salesLY:22.03,cc:2194.9,ccLY:26.24,basket:122.3342,basketLY:-3.33,intensity:3246.82,agg:22.13,ecom:1.07,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:75.4,fresh:16.88,nonfood:7.54,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Leabaib 2",sales:122912.54,salesLY:8.28,cc:1575.55,ccLY:1.24,basket:78.0125,basketLY:6.96,intensity:1875.57,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:73.54,fresh:18.95,nonfood:7.29,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Thakira",sales:117339.54,salesLY:5.66,cc:1417.65,ccLY:2.91,basket:82.7707,basketLY:2.67,intensity:2002.38,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:70.19,fresh:23.37,nonfood:6.25,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Al Khor",sales:159758.19,salesLY:27.85,cc:1536.55,ccLY:29.72,basket:103.9721,basketLY:-1.44,intensity:1781.03,agg:18.76,ecom:0.48,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:70.58,fresh:21.03,nonfood:8.22,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Umm Qarn",sales:160258.14,salesLY:11.43,cc:1404.61,ccLY:9.09,basket:114.0942,basketLY:2.14,intensity:2739.46,agg:null,ecom:0.39,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:74.32,fresh:17.99,nonfood:7.51,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
     ]
   },
   jun: {
-    label:"June 2025", short:"Jun",
-    note:"Monthly data — June 2025",
+    label:"June 2026", short:"Jun",
+    note:"Monthly data — June 2026",
     stores:[
-      {name:"Hazm Al Markhiya",sales:503910.32,salesLY:4.09,cc:3940.47,ccLY:5.00,basket:127.8808,basketLY:-0.87,intensity:6193.08,agg:19.10,ecom:1.48,sco_pct:15.09,avail:78.01,wnf:-0.11931,wf:-3.83507,fmcg:63.88,fresh:25.89,nonfood:9.99,tam:1.50,staff:170,skus:37226,totalShops:18,occShops:17,totalKiosks:0,occKiosks:0},
-      {name:"Azghawa Old",sales:243880.68,salesLY:24.11,cc:1926.87,ccLY:15.37,basket:126.5681,basketLY:7.57,intensity:3258.98,agg:null,ecom:null,sco_pct:20.11,avail:77.37,wnf:-0.19178,wf:-4.22471,fmcg:69.16,fresh:22.55,nonfood:8.08,tam:2.28,staff:91,skus:29251,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
-      {name:"Khalifa South",sales:168531.70,salesLY:-0.18,cc:2778.24,ccLY:-0.35,basket:60.6613,basketLY:0.18,intensity:2778.00,agg:null,ecom:null,sco_pct:null,avail:82.62,wnf:-0.29704,wf:-4.28393,fmcg:69.23,fresh:24.19,nonfood:6.38,tam:2.35,staff:72,skus:33871,totalShops:9,occShops:8,totalKiosks:3,occKiosks:3},
-      {name:"Leabaib 1",sales:243105.85,salesLY:7.17,cc:2268.86,ccLY:5.82,basket:107.1491,basketLY:1.28,intensity:2480.67,agg:27.59,ecom:1.76,sco_pct:17.94,avail:79.96,wnf:-0.19405,wf:-6.17972,fmcg:72.74,fresh:18.57,nonfood:8.47,tam:1.98,staff:105,skus:33982,totalShops:15,occShops:15,totalKiosks:1,occKiosks:1},
-      {name:"Rawdath Ekdeem",sales:261919.76,salesLY:14.71,cc:2384.97,ccLY:10.40,basket:109.8211,basketLY:3.90,intensity:3687.28,agg:25.58,ecom:0.00,sco_pct:null,avail:78.83,wnf:-0.18340,wf:-4.22609,fmcg:75.32,fresh:18.06,nonfood:6.37,tam:3.36,staff:82,skus:32869,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-      {name:"Rawdat Al Hamama",sales:274844.69,salesLY:24.98,cc:2062.34,ccLY:28.35,basket:133.2686,basketLY:-2.63,intensity:3323.39,agg:22.39,ecom:1.27,sco_pct:null,avail:80.66,wnf:-0.14049,wf:-3.54133,fmcg:75.36,fresh:17.07,nonfood:7.38,tam:3.05,staff:101,skus:33401,totalShops:8,occShops:8,totalKiosks:1,occKiosks:0},
-      {name:"Leabaib 2",sales:129959.01,salesLY:11.71,cc:1573.57,ccLY:1.86,basket:82.5887,basketLY:9.67,intensity:1983.10,agg:null,ecom:null,sco_pct:null,avail:78.49,wnf:-0.34844,wf:-5.11025,fmcg:73.35,fresh:19.21,nonfood:7.22,tam:3.38,staff:63,skus:29206,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-      {name:"Thakira",sales:119939.07,salesLY:5.20,cc:1380.20,ccLY:2.94,basket:86.8998,basketLY:2.19,intensity:2046.74,agg:null,ecom:null,sco_pct:null,avail:76.94,wnf:-0.29836,wf:-4.22294,fmcg:70.16,fresh:23.54,nonfood:6.11,tam:1.50,staff:60,skus:25192,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
-      {name:"Al Khor",sales:158909.72,salesLY:17.65,cc:1421.25,ccLY:20.24,basket:111.8095,basketLY:-2.15,intensity:1771.57,agg:19.16,ecom:0.65,sco_pct:null,avail:83.06,wnf:-0.17051,wf:-4.41475,fmcg:70.71,fresh:21.01,nonfood:8.10,tam:1.61,staff:84,skus:31065,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
-      {name:"Umm Qarn",sales:168083.93,salesLY:12.78,cc:1367.99,ccLY:8.02,basket:122.8689,basketLY:4.41,intensity:2873.23,agg:0.00,ecom:0.50,sco_pct:null,avail:81.60,wnf:-0.17042,wf:-4.88848,fmcg:74.32,fresh:18.11,nonfood:7.38,tam:3.35,staff:65,skus:29500,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+      {name:"Hazm Al Markhiya",sales:463268.99,salesLY:0.44,cc:3917.43,ccLY:11.41,basket:118.2583,basketLY:-9.85,intensity:5693.6,agg:19.10,ecom:1.48,sco_pct:15.09,avail:78.01,wnf:-0.11931,wf:-3.83507,fmcg:63.88,fresh:25.89,nonfood:9.99,tam:1.50,staff:170,skus:37226,totalShops:18,occShops:17,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:208154.47,salesLY:-0.76,cc:1873.87,ccLY:10.37,basket:111.0829,basketLY:-10.08,intensity:2781.57,agg:null,ecom:null,sco_pct:20.11,avail:77.37,wnf:-0.19178,wf:-4.22471,fmcg:69.16,fresh:22.55,nonfood:8.08,tam:2.28,staff:91,skus:29251,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
+      {name:"Khalifa South",sales:142945.62,salesLY:-8.45,cc:2596.23,ccLY:-2.61,basket:55.0588,basketLY:-5.99,intensity:2356.25,agg:null,ecom:null,sco_pct:null,avail:82.62,wnf:-0.29704,wf:-4.28393,fmcg:69.23,fresh:24.19,nonfood:6.38,tam:2.35,staff:72,skus:33871,totalShops:9,occShops:8,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:231054.57,salesLY:8.82,cc:2316.73,ccLY:13.51,basket:99.7329,basketLY:-4.13,intensity:2357.7,agg:27.59,ecom:1.76,sco_pct:17.94,avail:79.96,wnf:-0.19405,wf:-6.17972,fmcg:72.74,fresh:18.57,nonfood:8.47,tam:1.98,staff:105,skus:33982,totalShops:15,occShops:15,totalKiosks:1,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:239995.75,salesLY:12.53,cc:2408.8,ccLY:14.56,basket:99.6329,basketLY:-1.77,intensity:3378.64,agg:25.58,ecom:0.00,sco_pct:null,avail:78.83,wnf:-0.18340,wf:-4.22609,fmcg:75.32,fresh:18.06,nonfood:6.37,tam:3.36,staff:82,skus:32869,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:252822.87,salesLY:10.99,cc:2102.1,ccLY:22.26,basket:120.2716,basketLY:-9.21,intensity:3057.11,agg:22.39,ecom:1.27,sco_pct:null,avail:80.66,wnf:-0.14049,wf:-3.54133,fmcg:75.36,fresh:17.07,nonfood:7.38,tam:3.05,staff:101,skus:33401,totalShops:8,occShops:8,totalKiosks:1,occKiosks:0},
+      {name:"Leabaib 2",sales:114474.93,salesLY:2.89,cc:1528.4,ccLY:-0.2,basket:74.8985,basketLY:3.09,intensity:1746.82,agg:null,ecom:null,sco_pct:null,avail:78.49,wnf:-0.34844,wf:-5.11025,fmcg:73.35,fresh:19.21,nonfood:7.22,tam:3.38,staff:63,skus:29206,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:101988.71,salesLY:-1.64,cc:1299.7,ccLY:-1.39,basket:78.471,basketLY:-0.26,intensity:1740.42,agg:null,ecom:null,sco_pct:null,avail:76.94,wnf:-0.29836,wf:-4.22294,fmcg:70.16,fresh:23.54,nonfood:6.11,tam:1.50,staff:60,skus:25192,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:140040.23,salesLY:10.84,cc:1410.13,ccLY:21.17,basket:99.3099,basketLY:-8.52,intensity:1561.21,agg:19.16,ecom:0.65,sco_pct:null,avail:83.06,wnf:-0.17051,wf:-4.41475,fmcg:70.71,fresh:21.01,nonfood:8.10,tam:1.61,staff:84,skus:31065,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+      {name:"Umm Qarn",sales:154509.93,salesLY:6.67,cc:1360.4,ccLY:9.57,basket:113.5768,basketLY:-2.64,intensity:2641.2,agg:0.00,ecom:0.50,sco_pct:null,avail:81.60,wnf:-0.17042,wf:-4.88848,fmcg:74.32,fresh:18.11,nonfood:7.38,tam:3.35,staff:65,skus:29500,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
     ]
   },
   jul: {
-    label:"July 2025", short:"Jul",
-    note:"Monthly data — July 2025",
+    label:"July 2026", short:"Jul",
+    note:"Monthly data — July 2026",
     stores:[
-      {name:"Hazm Al Markhiya",sales:496588.40,salesLY:5.62,cc:3860.40,ccLY:4.85,basket:128.6365,basketLY:0.74,intensity:6103.09,agg:19.04,ecom:1.70,sco_pct:15.10,avail:77.03,wnf:-0.1253,wf:-3.9905,fmcg:62.87,fresh:25.49,nonfood:11.41,tam:1.49,staff:170,skus:32679,totalShops:18,occShops:17,totalKiosks:0,occKiosks:0},
-      {name:"Azghawa Old",sales:237920.13,salesLY:24.04,cc:1891.75,ccLY:14.94,basket:125.7669,basketLY:7.92,intensity:3179.33,agg:null,ecom:null,sco_pct:20.10,avail:76.09,wnf:-0.1813,wf:-4.2983,fmcg:68.78,fresh:22.55,nonfood:8.47,tam:2.27,staff:91,skus:27386,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
-      {name:"Khalifa South",sales:162342.60,salesLY:-0.17,cc:2729.57,ccLY:-0.48,basket:59.4755,basketLY:0.31,intensity:2675.98,agg:null,ecom:null,sco_pct:null,avail:81.64,wnf:-0.3013,wf:-4.5609,fmcg:69.07,fresh:24.27,nonfood:6.46,tam:2.40,staff:72,skus:31261,totalShops:9,occShops:8,totalKiosks:3,occKiosks:3},
-      {name:"Leabaib 1",sales:239901.32,salesLY:8.43,cc:2248.89,ccLY:6.41,basket:106.6754,basketLY:1.90,intensity:2447.97,agg:28.03,ecom:1.94,sco_pct:17.65,avail:78.71,wnf:-0.1924,wf:-6.2659,fmcg:72.52,fresh:18.58,nonfood:8.68,tam:1.92,staff:105,skus:31574,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
-      {name:"Rawdath Ekdeem",sales:254548.28,salesLY:14.44,cc:2334.61,ccLY:9.96,basket:109.0325,basketLY:4.07,intensity:3583.50,agg:25.57,ecom:null,sco_pct:null,avail:77.56,wnf:-0.1784,wf:-4.1697,fmcg:75.18,fresh:18.24,nonfood:6.33,tam:3.41,staff:82,skus:30508,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-      {name:"Rawdat Al Hamama",sales:267091.15,salesLY:23.72,cc:2022.79,ccLY:26.64,basket:132.0411,basketLY:-2.30,intensity:3229.64,agg:22.43,ecom:1.47,sco_pct:null,avail:79.22,wnf:-0.1385,wf:-3.7001,fmcg:75.25,fresh:17.15,nonfood:7.41,tam:3.06,staff:101,skus:30396,totalShops:8,occShops:8,totalKiosks:1,occKiosks:0},
-      {name:"Leabaib 2",sales:126336.93,salesLY:11.69,cc:1548.30,ccLY:1.86,basket:81.5971,basketLY:9.66,intensity:1927.83,agg:null,ecom:null,sco_pct:null,avail:77.65,wnf:-0.3447,wf:-5.2092,fmcg:73.13,fresh:19.40,nonfood:7.24,tam:3.44,staff:63,skus:26718,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-      {name:"Thakira",sales:115021.85,salesLY:5.65,cc:1345.17,ccLY:3.22,basket:85.5073,basketLY:2.35,intensity:1962.83,agg:null,ecom:null,sco_pct:null,avail:75.90,wnf:-0.2915,wf:-4.3666,fmcg:70.07,fresh:23.66,nonfood:6.08,tam:1.53,staff:60,skus:23501,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
-      {name:"Al Khor",sales:154265.90,salesLY:18.96,cc:1389.74,ccLY:20.64,basket:111.0038,basketLY:-1.39,intensity:1719.80,agg:19.29,ecom:1.01,sco_pct:null,avail:81.96,wnf:-0.1608,wf:-4.4912,fmcg:70.78,fresh:21.00,nonfood:8.03,tam:1.64,staff:84,skus:28878,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
-      {name:"Umm Qarn",sales:163973.50,salesLY:13.34,cc:1349.51,ccLY:8.13,basket:121.5060,basketLY:4.82,intensity:2802.97,agg:null,ecom:0.44,sco_pct:null,avail:80.40,wnf:-0.1674,wf:-4.8995,fmcg:74.17,fresh:18.34,nonfood:7.30,tam:3.37,staff:65,skus:28710,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+      {name:"Hazm Al Markhiya",sales:453837.85,salesLY:17.95,cc:3392.9,ccLY:4.2,basket:133.7609,basketLY:13.2,intensity:5577.69,agg:19.04,ecom:1.70,sco_pct:15.10,avail:77.03,wnf:-0.1253,wf:-3.9905,fmcg:62.87,fresh:25.49,nonfood:11.41,tam:1.49,staff:170,skus:32679,totalShops:18,occShops:17,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:203118.26,salesLY:24.8,cc:1686.71,ccLY:12.67,basket:120.4228,basketLY:10.77,intensity:2714.28,agg:null,ecom:null,sco_pct:20.10,avail:76.09,wnf:-0.1813,wf:-4.2983,fmcg:68.78,fresh:22.55,nonfood:8.47,tam:2.27,staff:91,skus:27386,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
+      {name:"Khalifa South",sales:126206.22,salesLY:-0.02,cc:2445.39,ccLY:-1.6,basket:51.6099,basketLY:1.61,intensity:2080.32,agg:null,ecom:null,sco_pct:null,avail:81.64,wnf:-0.3013,wf:-4.5609,fmcg:69.07,fresh:24.27,nonfood:6.46,tam:2.40,staff:72,skus:31261,totalShops:9,occShops:8,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:221190.99,salesLY:17.86,cc:2132.32,ccLY:10.65,basket:103.7324,basketLY:6.52,intensity:2257.05,agg:28.03,ecom:1.94,sco_pct:17.65,avail:78.71,wnf:-0.1924,wf:-6.2659,fmcg:72.52,fresh:18.58,nonfood:8.68,tam:1.92,staff:105,skus:31574,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:211508.29,salesLY:13.03,cc:2040.58,ccLY:7.15,basket:103.651,basketLY:5.49,intensity:2977.59,agg:25.57,ecom:null,sco_pct:null,avail:77.56,wnf:-0.1784,wf:-4.1697,fmcg:75.18,fresh:18.24,nonfood:6.33,tam:3.41,staff:82,skus:30508,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:221820.5,salesLY:15.97,cc:1791.87,ccLY:16.78,basket:123.7927,basketLY:-0.69,intensity:2682.23,agg:22.43,ecom:1.47,sco_pct:null,avail:79.22,wnf:-0.1385,wf:-3.7001,fmcg:75.25,fresh:17.15,nonfood:7.41,tam:3.06,staff:101,skus:30396,totalShops:8,occShops:8,totalKiosks:1,occKiosks:0},
+      {name:"Leabaib 2",sales:105188.67,salesLY:12.66,cc:1400.77,ccLY:2.48,basket:75.0932,basketLY:9.93,intensity:1605.12,agg:null,ecom:null,sco_pct:null,avail:77.65,wnf:-0.3447,wf:-5.2092,fmcg:73.13,fresh:19.40,nonfood:7.24,tam:3.44,staff:63,skus:26718,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:86311.63,salesLY:9.64,cc:1140.65,ccLY:5.38,basket:75.6691,basketLY:4.05,intensity:1472.89,agg:null,ecom:null,sco_pct:null,avail:75.90,wnf:-0.2915,wf:-4.3666,fmcg:70.07,fresh:23.66,nonfood:6.08,tam:1.53,staff:60,skus:23501,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:127151.99,salesLY:29.93,cc:1205.71,ccLY:23.56,basket:105.4582,basketLY:5.16,intensity:1417.53,agg:19.29,ecom:1.01,sco_pct:null,avail:81.96,wnf:-0.1608,wf:-4.4912,fmcg:70.78,fresh:21.00,nonfood:8.03,tam:1.64,staff:84,skus:28878,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+      {name:"Umm Qarn",sales:139973.89,salesLY:17.8,cc:1241.58,ccLY:9.56,basket:112.7385,basketLY:7.52,intensity:2392.72,agg:null,ecom:0.44,sco_pct:null,avail:80.40,wnf:-0.1674,wf:-4.8995,fmcg:74.17,fresh:18.34,nonfood:7.30,tam:3.37,staff:65,skus:28710,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
     ]
   },
   aug: {
-    label:"August 2025", short:"Aug",
-    note:"Monthly data — August 2025",
+    label:"August 2026", short:"Aug",
+    note:"Monthly data — August 2026",
     stores:[
-      {name:"Hazm Al Markhiya",sales:487592.71,salesLY:6.08,cc:3813.62,ccLY:4.74,basket:127.8557,basketLY:1.28,intensity:5992.54,agg:19.34,ecom:1.88,sco_pct:15.01,avail:76.66,wnf:-0.1257,wf:-4.1051,fmcg:63.12,fresh:25.56,nonfood:11.09,tam:1.49,staff:170,skus:31490,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
-      {name:"Azghawa Old",sales:234159.17,salesLY:22.98,cc:1877.72,ccLY:14.93,basket:124.7037,basketLY:7.01,intensity:3129.08,agg:null,ecom:null,sco_pct:20.19,avail:75.81,wnf:-0.1786,wf:-4.2720,fmcg:68.97,fresh:22.68,nonfood:8.15,tam:2.31,staff:91,skus:28557,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
-      {name:"Khalifa South",sales:158558.64,salesLY:-0.05,cc:2695.60,ccLY:-0.57,basket:58.8213,basketLY:0.53,intensity:2613.60,agg:null,ecom:null,sco_pct:null,avail:81.11,wnf:-0.3004,wf:-4.7527,fmcg:69.23,fresh:24.13,nonfood:6.44,tam:2.45,staff:72,skus:32188,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
-      {name:"Leabaib 1",sales:238082.64,salesLY:8.65,cc:2238.69,ccLY:6.88,basket:106.3492,basketLY:1.65,intensity:2429.41,agg:28.77,ecom:2.13,sco_pct:17.41,avail:78.01,wnf:-0.1876,wf:-6.2132,fmcg:72.75,fresh:18.63,nonfood:8.40,tam:1.91,staff:105,skus:30912,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
-      {name:"Rawdath Ekdeem",sales:250941.81,salesLY:13.79,cc:2302.28,ccLY:9.24,basket:108.9973,basketLY:4.17,intensity:3532.73,agg:25.75,ecom:null,sco_pct:null,avail:76.93,wnf:-0.1812,wf:-4.1822,fmcg:75.04,fresh:18.42,nonfood:6.29,tam:3.44,staff:82,skus:31511,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-      {name:"Rawdat Al Hamama",sales:263816.28,salesLY:22.58,cc:1998.41,ccLY:25.03,basket:132.0130,basketLY:-1.96,intensity:3190.04,agg:22.59,ecom:1.72,sco_pct:null,avail:78.35,wnf:-0.1343,wf:-3.8110,fmcg:75.29,fresh:17.17,nonfood:7.35,tam:3.05,staff:101,skus:29611,totalShops:8,occShops:8,totalKiosks:0,occKiosks:0},
-      {name:"Leabaib 2",sales:124523.04,salesLY:11.63,cc:1527.21,ccLY:1.66,basket:81.5363,basketLY:9.80,intensity:1900.15,agg:null,ecom:null,sco_pct:null,avail:77.45,wnf:-0.3272,wf:-5.2681,fmcg:73.03,fresh:19.52,nonfood:7.22,tam:3.47,staff:63,skus:27901,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-      {name:"Thakira",sales:111648.30,salesLY:5.67,cc:1314.63,ccLY:2.97,basket:84.9276,basketLY:2.62,intensity:1905.26,agg:null,ecom:null,sco_pct:null,avail:75.75,wnf:-0.2812,wf:-4.4205,fmcg:70.08,fresh:23.66,nonfood:6.07,tam:1.54,staff:60,skus:24574,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
-      {name:"Al Khor",sales:151538.70,salesLY:19.39,cc:1370.62,ccLY:20.57,basket:110.5620,basketLY:-0.98,intensity:1689.39,agg:19.45,ecom:1.43,sco_pct:null,avail:81.20,wnf:-0.1568,wf:-4.5280,fmcg:70.85,fresh:21.05,nonfood:7.90,tam:1.66,staff:84,skus:28842,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
-      {name:"Umm Qarn",sales:162145.50,salesLY:13.42,cc:1337.45,ccLY:8.41,basket:121.2346,basketLY:4.62,intensity:2771.72,agg:null,ecom:0.39,sco_pct:null,avail:79.99,wnf:-0.1686,wf:-4.8066,fmcg:74.10,fresh:18.49,nonfood:7.22,tam:3.36,staff:65,skus:29289,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+      {name:"Hazm Al Markhiya",sales:426073.73,salesLY:8.55,cc:3493.68,ccLY:3.09,basket:121.9557,basketLY:5.3,intensity:5236.47,agg:19.34,ecom:1.88,sco_pct:15.01,avail:76.66,wnf:-0.1257,wf:-4.1051,fmcg:63.12,fresh:25.56,nonfood:11.09,tam:1.49,staff:170,skus:31490,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:208439.03,salesLY:14.09,cc:1781.77,ccLY:13.96,basket:116.984,basketLY:0.12,intensity:2785.38,agg:null,ecom:null,sco_pct:20.19,avail:75.81,wnf:-0.1786,wf:-4.2720,fmcg:68.97,fresh:22.68,nonfood:8.15,tam:2.31,staff:91,skus:28557,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
+      {name:"Khalifa South",sales:132681.24,salesLY:-0.2,cc:2463.29,ccLY:-1.49,basket:53.8634,basketLY:1.31,intensity:2187.05,agg:null,ecom:null,sco_pct:null,avail:81.11,wnf:-0.3004,wf:-4.7527,fmcg:69.23,fresh:24.13,nonfood:6.44,tam:2.45,staff:72,skus:32188,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:225645.21,salesLY:9.07,cc:2168.9,ccLY:9.66,basket:104.0366,basketLY:-0.54,intensity:2302.5,agg:28.77,ecom:2.13,sco_pct:17.41,avail:78.01,wnf:-0.1876,wf:-6.2132,fmcg:72.75,fresh:18.63,nonfood:8.40,tam:1.91,staff:105,skus:30912,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:226278.28,salesLY:8.19,cc:2081.16,ccLY:3.41,basket:108.7269,basketLY:4.63,intensity:3185.52,agg:25.75,ecom:null,sco_pct:null,avail:76.93,wnf:-0.1812,wf:-4.1822,fmcg:75.04,fresh:18.42,nonfood:6.29,tam:3.44,staff:82,skus:31511,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:241420.39,salesLY:13.54,cc:1831.71,ccLY:13.03,basket:131.8006,basketLY:0.45,intensity:2919.23,agg:22.59,ecom:1.72,sco_pct:null,avail:78.35,wnf:-0.1343,wf:-3.8110,fmcg:75.29,fresh:17.17,nonfood:7.35,tam:3.05,staff:101,skus:29611,totalShops:8,occShops:8,totalKiosks:0,occKiosks:0},
+      {name:"Leabaib 2",sales:112118.36,salesLY:9.4,cc:1382.97,ccLY:-0.77,basket:81.0708,basketLY:10.24,intensity:1710.86,agg:null,ecom:null,sco_pct:null,avail:77.45,wnf:-0.3272,wf:-5.2681,fmcg:73.03,fresh:19.52,nonfood:7.22,tam:3.47,staff:63,skus:27901,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:88577.6,salesLY:4.95,cc:1105.77,ccLY:0.35,basket:80.1046,basketLY:4.59,intensity:1511.56,agg:null,ecom:null,sco_pct:null,avail:75.75,wnf:-0.2812,wf:-4.4205,fmcg:70.08,fresh:23.66,nonfood:6.07,tam:1.54,staff:60,skus:24574,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:132888.14,salesLY:22.0,cc:1239.9,ccLY:19.45,basket:107.1762,basketLY:2.14,intensity:1481.47,agg:19.45,ecom:1.43,sco_pct:null,avail:81.20,wnf:-0.1568,wf:-4.5280,fmcg:70.85,fresh:21.05,nonfood:7.90,tam:1.66,staff:84,skus:28842,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+      {name:"Umm Qarn",sales:149644.34,salesLY:12.68,cc:1255.0,ccLY:9.92,basket:119.2385,basketLY:2.51,intensity:2558.02,agg:null,ecom:0.39,sco_pct:null,avail:79.99,wnf:-0.1686,wf:-4.8066,fmcg:74.10,fresh:18.49,nonfood:7.22,tam:3.36,staff:65,skus:29289,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+    ]
+  },
+  sep: {
+    label:"September 2026", short:"Sep",
+    note:"Monthly data — September 2026 (sales data only)",
+    stores:[
+      {name:"Hazm Al Markhiya",sales:504039.72,salesLY:9.12,cc:3895.67,ccLY:6.3,basket:129.3847,basketLY:2.66,intensity:6194.67,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Azghawa Old",sales:234379.83,salesLY:9.8,cc:1995.5,ccLY:11.08,basket:117.4542,basketLY:-1.16,intensity:3132.02,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Khalifa South",sales:148512.77,salesLY:-0.17,cc:2596.6,ccLY:-1.86,basket:57.1951,basketLY:1.72,intensity:2448.01,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Leabaib 1",sales:250834.43,salesLY:12.57,cc:2481.87,ccLY:15.83,basket:101.0668,basketLY:-2.82,intensity:2559.54,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Rawdath Ekdeem",sales:250047.2,salesLY:6.33,cc:2341.53,ccLY:6.18,basket:106.7878,basketLY:0.14,intensity:3520.14,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Rawdat Al Hamama",sales:265730.11,salesLY:9.31,cc:2080.63,ccLY:14.61,basket:127.716,basketLY:-4.63,intensity:3213.18,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Leabaib 2",sales:117838.79,salesLY:-1.41,cc:1530.63,ccLY:-1.25,basket:76.9869,basketLY:-0.16,intensity:1798.15,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Thakira",sales:104142.48,salesLY:-0.96,cc:1282.37,ccLY:-1.35,basket:81.2112,basketLY:0.4,intensity:1777.18,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Al Khor",sales:153091.03,salesLY:19.16,cc:1398.63,ccLY:15.65,basket:109.4576,basketLY:3.03,intensity:1706.7,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+      {name:"Umm Qarn",sales:153476.81,salesLY:5.47,cc:1349.3,ccLY:7.76,basket:113.7455,basketLY:-2.13,intensity:2623.54,agg:null,ecom:null,sco_pct:null,avail:null,wnf:null,wf:null,fmcg:null,fresh:null,nonfood:null,tam:null,staff:null,skus:null,totalShops:null,occShops:null,totalKiosks:null,occKiosks:null},
+    ]
+  },
+  oct: {
+    label:"October 2026", short:"Oct",
+    note:"Monthly data — October 2026",
+    stores:[
+      {name:"Hazm Al Markhiya",sales:524877.55,salesLY:12.39,cc:3984.77,ccLY:6.06,basket:131.7208,basketLY:5.96,intensity:6450.77,agg:19.62,ecom:2.22,sco_pct:14.87,avail:66.03,wnf:-0.1126,wf:-4.4494,fmcg:62.83,fresh:25.56,nonfood:11.37,tam:1.48,staff:170,skus:30174,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
+      {name:"Azghawa Old",sales:242071.56,salesLY:18.29,cc:1992.26,ccLY:14.66,basket:121.5061,basketLY:3.16,intensity:3234.81,agg:null,ecom:null,sco_pct:20.12,avail:66.32,wnf:-0.1256,wf:-3.8445,fmcg:68.73,fresh:22.99,nonfood:8.07,tam:2.3,staff:91,skus:28939,totalShops:10,occShops:5,totalKiosks:3,occKiosks:3},
+      {name:"Khalifa South",sales:160273.41,salesLY:4.89,cc:2599.03,ccLY:-8.05,basket:61.6666,basketLY:14.07,intensity:2641.87,agg:null,ecom:null,sco_pct:null,avail:74.8,wnf:-0.3114,wf:-4.8465,fmcg:69.42,fresh:23.98,nonfood:6.41,tam:2.46,staff:72,skus:32268,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
+      {name:"Leabaib 1",sales:258307.8,salesLY:17.44,cc:2432.39,ccLY:14.1,basket:106.1952,basketLY:2.92,intensity:2635.79,agg:29.61,ecom:2.44,sco_pct:16.93,avail:65.43,wnf:-0.2055,wf:-4.2634,fmcg:72.86,fresh:18.79,nonfood:8.12,tam:1.86,staff:105,skus:30094,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+      {name:"Rawdath Ekdeem",sales:253000.58,salesLY:7.12,cc:2328.58,ccLY:3.89,basket:108.6501,basketLY:3.12,intensity:3561.72,agg:25.94,ecom:null,sco_pct:null,avail:63.51,wnf:-0.184,wf:-4.3624,fmcg:74.88,fresh:18.64,nonfood:6.23,tam:3.46,staff:82,skus:31608,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+      {name:"Rawdat Al Hamama",sales:273321.34,salesLY:10.65,cc:2119.35,ccLY:10.2,basket:128.9644,basketLY:0.41,intensity:3304.97,agg:22.74,ecom:2.09,sco_pct:null,avail:60.1,wnf:-0.1559,wf:-3.7452,fmcg:75.25,fresh:17.3,nonfood:7.24,tam:3.05,staff:101,skus:27647,totalShops:8,occShops:8,totalKiosks:0,occKiosks:0},
+      {name:"Leabaib 2",sales:120668.41,salesLY:2.2,cc:1464.77,ccLY:-5.5,basket:82.3802,basketLY:8.15,intensity:1841.33,agg:null,ecom:null,sco_pct:null,avail:69.83,wnf:-0.4232,wf:-5.1586,fmcg:72.8,fresh:19.78,nonfood:7.17,tam:3.48,staff:63,skus:28066,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+      {name:"Thakira",sales:109303.52,salesLY:-1.72,cc:1316.94,ccLY:-3.99,basket:82.9984,basketLY:2.37,intensity:1865.25,agg:null,ecom:null,sco_pct:null,avail:66.44,wnf:-0.2044,wf:-4.2566,fmcg:70.02,fresh:23.77,nonfood:6.0,tam:1.53,staff:60,skus:24732,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
+      {name:"Al Khor",sales:162167.09,salesLY:26.45,cc:1452.29,ccLY:18.76,basket:111.663,basketLY:6.48,intensity:1807.88,agg:19.64,ecom:2.02,sco_pct:null,avail:67.07,wnf:-0.1344,wf:-3.83,fmcg:70.91,fresh:21.17,nonfood:7.72,tam:1.65,staff:84,skus:28650,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+      {name:"Umm Qarn",sales:160176.9,salesLY:10.28,cc:1369.9,ccLY:8.15,basket:116.9257,basketLY:1.98,intensity:2738.07,agg:null,ecom:null,sco_pct:null,avail:64.94,wnf:-0.1782,wf:-4.424,fmcg:74.0,fresh:18.69,nonfood:7.1,tam:3.37,staff:65,skus:29533,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
     ]
   }
 }; // end MONTHS
 
-// ── YTD: static snapshot from company YTD analysis (August 2025 baseline) ────
+// ── YTD: Jan–Oct 2026 from company Year to Date sales report (304 days) ──────
 MONTHS.ytd={
-  label:"YTD 2025 (Feb–Aug)",short:"YTD",
-  note:"Year-to-date — February to August 2025",
+  label:"YTD 2026 (Jan–Oct)",short:"YTD",
+  note:"Year-to-date — January to October 2026 (304 days)",
   stores:[
-    {name:"Hazm Al Markhiya",sales:487592.71,salesLY:6.08,cc:3813.62,ccLY:4.74,basket:127.8557,basketLY:1.28,intensity:5992.54,agg:19.34,ecom:1.88,sco_pct:15.01,avail:76.66,wnf:-0.1257,wf:-4.1051,fmcg:63.12,fresh:25.56,nonfood:11.09,tam:1.49,staff:170,skus:31490,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
-    {name:"Azghawa Old",sales:234159.17,salesLY:22.98,cc:1877.72,ccLY:14.93,basket:124.7037,basketLY:7.01,intensity:3129.08,agg:null,ecom:null,sco_pct:20.19,avail:75.81,wnf:-0.1786,wf:-4.2720,fmcg:68.97,fresh:22.68,nonfood:8.15,tam:2.31,staff:91,skus:28557,totalShops:10,occShops:4,totalKiosks:3,occKiosks:3},
-    {name:"Khalifa South",sales:158558.64,salesLY:-0.05,cc:2695.60,ccLY:-0.57,basket:58.8213,basketLY:0.53,intensity:2613.60,agg:null,ecom:null,sco_pct:null,avail:81.11,wnf:-0.3004,wf:-4.7527,fmcg:69.23,fresh:24.13,nonfood:6.44,tam:2.45,staff:72,skus:32188,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
-    {name:"Leabaib 1",sales:238082.64,salesLY:8.65,cc:2238.69,ccLY:6.88,basket:106.3492,basketLY:1.65,intensity:2429.41,agg:28.77,ecom:2.13,sco_pct:17.41,avail:78.01,wnf:-0.1876,wf:-6.2132,fmcg:72.75,fresh:18.63,nonfood:8.40,tam:1.91,staff:105,skus:30912,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
-    {name:"Rawdath Ekdeem",sales:250941.81,salesLY:13.79,cc:2302.28,ccLY:9.24,basket:108.9973,basketLY:4.17,intensity:3532.73,agg:25.75,ecom:null,sco_pct:null,avail:76.93,wnf:-0.1812,wf:-4.1822,fmcg:75.04,fresh:18.42,nonfood:6.29,tam:3.44,staff:82,skus:31511,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
-    {name:"Rawdat Al Hamama",sales:263816.28,salesLY:22.58,cc:1998.41,ccLY:25.03,basket:132.0130,basketLY:-1.96,intensity:3190.04,agg:22.59,ecom:1.72,sco_pct:null,avail:78.35,wnf:-0.1343,wf:-3.8110,fmcg:75.29,fresh:17.17,nonfood:7.35,tam:3.05,staff:101,skus:29611,totalShops:8,occShops:8,totalKiosks:0,occKiosks:0},
-    {name:"Leabaib 2",sales:124523.04,salesLY:11.63,cc:1527.21,ccLY:1.66,basket:81.5363,basketLY:9.80,intensity:1900.15,agg:null,ecom:null,sco_pct:null,avail:77.45,wnf:-0.3272,wf:-5.2681,fmcg:73.03,fresh:19.52,nonfood:7.22,tam:3.47,staff:63,skus:27901,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
-    {name:"Thakira",sales:111648.30,salesLY:5.67,cc:1314.63,ccLY:2.97,basket:84.9276,basketLY:2.62,intensity:1905.26,agg:null,ecom:null,sco_pct:null,avail:75.75,wnf:-0.2812,wf:-4.4205,fmcg:70.08,fresh:23.66,nonfood:6.07,tam:1.54,staff:60,skus:24574,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
-    {name:"Al Khor",sales:151538.70,salesLY:19.39,cc:1370.62,ccLY:20.57,basket:110.5620,basketLY:-0.98,intensity:1689.39,agg:19.45,ecom:1.43,sco_pct:null,avail:81.20,wnf:-0.1568,wf:-4.5280,fmcg:70.85,fresh:21.05,nonfood:7.90,tam:1.66,staff:84,skus:28842,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
-    {name:"Umm Qarn",sales:162145.50,salesLY:13.42,cc:1337.45,ccLY:8.41,basket:121.2346,basketLY:4.62,intensity:2771.72,agg:null,ecom:0.39,sco_pct:null,avail:79.99,wnf:-0.1686,wf:-4.8066,fmcg:74.10,fresh:18.49,nonfood:7.22,tam:3.36,staff:65,skus:29289,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
+    {name:"Hazm Al Markhiya",sales:493017.84,salesLY:7.22,cc:3839.17,ccLY:5.06,basket:128.4179,basketLY:2.05,intensity:6059.21,agg:19.62,ecom:2.22,sco_pct:14.87,avail:66.03,wnf:-0.1126,wf:-4.4494,fmcg:62.83,fresh:25.56,nonfood:11.37,tam:1.48,staff:170,skus:30174,totalShops:18,occShops:18,totalKiosks:0,occKiosks:0},
+    {name:"Azghawa Old",sales:234987.8,salesLY:21.32,cc:1901.03,ccLY:14.53,basket:123.611,basketLY:5.93,intensity:3140.15,agg:null,ecom:null,sco_pct:20.12,avail:66.32,wnf:-0.1256,wf:-3.8445,fmcg:68.73,fresh:22.99,nonfood:8.07,tam:2.3,staff:91,skus:28939,totalShops:10,occShops:5,totalKiosks:3,occKiosks:3},
+    {name:"Khalifa South",sales:157742.13,salesLY:0.47,cc:2675.98,ccLY:-1.47,basket:58.9473,basketLY:1.97,intensity:2600.15,agg:null,ecom:null,sco_pct:null,avail:74.8,wnf:-0.3114,wf:-4.8465,fmcg:69.42,fresh:23.98,nonfood:6.41,tam:2.46,staff:72,skus:32268,totalShops:9,occShops:9,totalKiosks:3,occKiosks:3},
+    {name:"Leabaib 1",sales:241403.47,salesLY:10.14,cc:2282.44,ccLY:8.56,basket:105.7656,basketLY:1.45,intensity:2463.3,agg:29.61,ecom:2.44,sco_pct:16.93,avail:65.43,wnf:-0.2055,wf:-4.2634,fmcg:72.86,fresh:18.79,nonfood:8.12,tam:1.86,staff:105,skus:30094,totalShops:15,occShops:15,totalKiosks:3,occKiosks:1},
+    {name:"Rawdath Ekdeem",sales:251063.47,salesLY:12.56,cc:2308.83,ccLY:8.41,basket:108.7405,basketLY:3.83,intensity:3534.45,agg:25.94,ecom:null,sco_pct:null,avail:63.51,wnf:-0.184,wf:-4.3624,fmcg:74.88,fresh:18.64,nonfood:6.23,tam:3.46,staff:82,skus:31608,totalShops:6,occShops:5,totalKiosks:5,occKiosks:5},
+    {name:"Rawdat Al Hamama",sales:264974.41,salesLY:20.13,cc:2018.86,ccLY:22.23,basket:131.2496,basketLY:-1.72,intensity:3204.04,agg:22.74,ecom:2.09,sco_pct:null,avail:60.1,wnf:-0.1559,wf:-3.7452,fmcg:75.25,fresh:17.3,nonfood:7.24,tam:3.05,staff:101,skus:27647,totalShops:8,occShops:8,totalKiosks:0,occKiosks:0},
+    {name:"Leabaib 2",sales:123470.34,salesLY:9.55,cc:1521.18,ccLY:0.66,basket:81.1674,basketLY:8.84,intensity:1884.08,agg:null,ecom:null,sco_pct:null,avail:69.83,wnf:-0.4232,wf:-5.1586,fmcg:72.8,fresh:19.78,nonfood:7.17,tam:3.48,staff:63,skus:28066,totalShops:14,occShops:14,totalKiosks:0,occKiosks:0},
+    {name:"Thakira",sales:110668.49,salesLY:4.35,cc:1311.68,ccLY:1.82,basket:84.3715,basketLY:2.48,intensity:1888.54,agg:null,ecom:null,sco_pct:null,avail:66.44,wnf:-0.2044,wf:-4.2566,fmcg:70.02,fresh:23.77,nonfood:6.0,tam:1.53,staff:60,skus:24732,totalShops:6,occShops:5,totalKiosks:4,occKiosks:3},
+    {name:"Al Khor",sales:152775.71,salesLY:20.34,cc:1381.71,ccLY:19.97,basket:110.5697,basketLY:0.31,intensity:1703.19,agg:19.64,ecom:2.02,sco_pct:null,avail:67.07,wnf:-0.1344,wf:-3.83,fmcg:70.91,fresh:21.17,nonfood:7.72,tam:1.65,staff:84,skus:28650,totalShops:6,occShops:5,totalKiosks:1,occKiosks:1},
+    {name:"Umm Qarn",sales:161089.29,salesLY:12.57,cc:1341.93,ccLY:8.41,basket:120.0429,basketLY:3.83,intensity:2753.66,agg:null,ecom:null,sco_pct:null,avail:64.94,wnf:-0.1782,wf:-4.424,fmcg:74.0,fresh:18.69,nonfood:7.1,tam:3.37,staff:65,skus:29533,totalShops:7,occShops:7,totalKiosks:0,occKiosks:0},
   ]
 };
 
 // ── Static store info (unchanged across months) ──────────
 const SINFO=[
   {name:"Hazm Al Markhiya",type:"Covered Mall",format:"Mini Hypers",opened:"13-Nov-1993",renovated:"15-Apr-2025",hours:"06:00 AM – 01:00 AM",size:2441,back:1156,parks:150,co:14,sco:3,trolleys:416,baskets:100,chillers:9,freezers:2,manager:"Tarek Chokr",phone:"66877059",email:"hazmalmarkhiya@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Grab & Go","Hot Food","Pizza Counter","Nuts Counter"],comp:["Day & Night Shopping Center","Marza Hypermarket","Souq Al Baladi","Tawar Mall - Spar"],nearby:["Onaiza 2"]},
-  {name:"Azghawa Old",type:"Strip Mall",format:"Mini Hypers",opened:"19-Feb-1999",renovated:"11-Jun-2025",hours:"07:00 AM – 02:00 AM",size:2245,back:398,parks:100,co:10,sco:3,trolleys:314,baskets:75,chillers:6,freezers:2,manager:"Harisharan Pudasaini",phone:"55075224",email:"azghawa@almeera.com.qa",profile:"Arabic",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Al Rawabi","Regency","Lulu Gharafa","Safari Ezdan Mall"],nearby:["Azghawa 2","Al Gharafa","Gulf Mall"]},
-  {name:"Khalifa South",type:"Strip Mall",format:"Mini Hypers",opened:"1976",renovated:"Oct-2011",hours:"07:00 AM – 12:00 MN",size:1820,back:2023,parks:56,co:7,sco:0,trolleys:228,baskets:185,chillers:2,freezers:2,manager:"Fevzi Balon",phone:"55362810",email:"khalifasouth@almeera.com.qa",profile:"Asian - Others",income:"Low Income",depts:["Butchery","Deli & Dairy","Fruits & Veg."],comp:["Lulu Hypermarket","Al Baladi"],nearby:["Bin Omran"]},
-  {name:"Leabaib 1",type:"Covered Mall",format:"Mini Hypers",opened:"01-May-2018",renovated:"01-Sep-2020",hours:"07:00 AM – 12:00 MN",size:2940,back:516,parks:210,co:7,sco:2,trolleys:289,baskets:203,chillers:7,freezers:2,manager:"Ahmad Yousef Khalil Yacoub",phone:"55706928",email:"leabaib1@almeera.com.qa",profile:"Qatari",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter","Flower Shop"],comp:["Monoprix DFC"],nearby:["Leabaib 2","Jeryan Nejaima"]},
-  {name:"Rawdath Ekdeem",type:"Covered Mall",format:"Mini Hypers",opened:"06-Dec-2015",renovated:"—",hours:"07:00 AM – 12:00 MN",size:2131,back:269,parks:145,co:8,sco:0,trolleys:268,baskets:240,chillers:7,freezers:1,manager:"Diego Gabriel Fernandez",phone:"30680893",email:"RawdatEkdeem@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter","Flower Shop"],comp:["—"],nearby:["—"]},
-  {name:"Rawdat Al Hamama",type:"Covered Mall",format:"Mini Hypers",opened:"22-Dec-2019",renovated:"—",hours:"07:00 AM – 12:00 MN",size:2481,back:669,parks:192,co:6,sco:0,trolleys:255,baskets:301,chillers:3,freezers:1,manager:"Charbel Azzi",phone:"70304194",email:"Rawdat_Al_Hamama@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Hot Food","Nuts Counter"],comp:["—"],nearby:["—"]},
-  {name:"Leabaib 2",type:"Covered Mall",format:"Mini Hypers",opened:"16-May-2017",renovated:"—",hours:"07:00 AM – 12:00 MN",size:1966,back:390,parks:132,co:8,sco:0,trolleys:167,baskets:147,chillers:4,freezers:1,manager:"Shubash Adhikari",phone:"33533038",email:"Leabaib2@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Duhail Supermarket","Al Baladi Supermarket","Monoprix"],nearby:["Leabaib 1","Jeryan Jenaihat","Jeryan Nejaima","Azghawa Old"]},
-  {name:"Thakira",type:"Covered Mall",format:"Mini Hypers",opened:"30-May-2015",renovated:"08-Jan-2021",hours:"07:30 AM – 12:00 MN",size:1758,back:215,parks:124,co:6,sco:0,trolleys:150,baskets:220,chillers:6,freezers:1,manager:"Muhammed Anzar",phone:"74065040",email:"Thakhira@almeera.com.qa",profile:"Asian - Others",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg."],comp:["Grand Mart","Day Today","Habari Supermarket","Lulu Supermarket"],nearby:["Res. Complex 1"]},
-  {name:"Al Khor",type:"Covered Mall",format:"Mini Hypers",opened:"15-Feb-2018",renovated:"21-Nov-2020",hours:"07:30 AM – 12:00 MN",size:2691,back:670,parks:174,co:6,sco:0,trolleys:209,baskets:298,chillers:6,freezers:2,manager:"Mustafa Elsaid Abdelatif Goma",phone:"55125759",email:"alkhor@almeera.com.qa",profile:"Asian - Others",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Hot Food","Nuts Counter","Flower Shop"],comp:["Lulu Hypermarket","Ansar Gallery","Safari","Kabayan Supermarket"],nearby:["—"]},
-  {name:"Umm Qarn",type:"Covered Mall",format:"Mini Hypers",opened:"26-Oct-2017",renovated:"—",hours:"08:00 AM – 12:00 MN",size:1755,back:494,parks:124,co:8,sco:0,trolleys:209,baskets:125,chillers:3,freezers:1,manager:"Mohamed Abdelfattah Abdelgawad Farahat",phone:"77570908",email:"Ummqarn@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Grand Hypermarket"],nearby:["—"]},
+  {name:"Azghawa Old",type:"Strip Mall",format:"Mini Hypers",opened:"19-Feb-1999",renovated:"11-Jun-2025",hours:"07:00 AM – 02:00 AM",size:2245,back:398,parks:100,co:10,sco:3,trolleys:314,baskets:69,chillers:6,freezers:2,manager:"Harisharan Pudasaini",phone:"55075224",email:"azghawa@almeera.com.qa",profile:"Arabic",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Al Rawabi","Regency","Lulu Gharafa","Safari Ezdan Mall"],nearby:["Azghawa 2","Al Gharafa","Gulf Mall"]},
+  {name:"Khalifa South",type:"Strip Mall",format:"Mini Hypers",opened:"1976",renovated:"Oct-2011",hours:"07:00 AM – 12:00 MN",size:1820,back:2023,parks:56,co:7,sco:0,trolleys:228,baskets:130,chillers:2,freezers:2,manager:"Fevzi Balon",phone:"55362810",email:"khalifasouth@almeera.com.qa",profile:"Asian - Others",income:"Low Income",depts:["Butchery","Deli & Dairy","Fruits & Veg."],comp:["Lulu Hypermarket","Al Baladi"],nearby:["Bin Omran"]},
+  {name:"Leabaib 1",type:"Covered Mall",format:"Mini Hypers",opened:"01-May-2018",renovated:"01-Sep-2020",hours:"07:00 AM – 12:00 MN",size:2940,back:516,parks:210,co:7,sco:2,trolleys:249,baskets:203,chillers:7,freezers:2,manager:"Ahmad Yousef Khalil Yacoub",phone:"55706928",email:"leabaib1@almeera.com.qa",profile:"Qatari",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter","Flower Shop"],comp:["Monoprix DFC"],nearby:["Leabaib 2","Jeryan Nejaima"]},
+  {name:"Rawdath Ekdeem",type:"Covered Mall",format:"Mini Hypers",opened:"06-Dec-2015",renovated:"—",hours:"07:00 AM – 12:00 MN",size:2131,back:269,parks:145,co:8,sco:0,trolleys:246,baskets:198,chillers:7,freezers:1,manager:"Diego Gabriel Fernandez",phone:"30680893",email:"RawdatEkdeem@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter","Flower Shop"],comp:["—"],nearby:["—"]},
+  {name:"Rawdat Al Hamama",type:"Covered Mall",format:"Mini Hypers",opened:"22-Dec-2019",renovated:"—",hours:"07:00 AM – 12:00 MN",size:2481,back:669,parks:192,co:6,sco:0,trolleys:253,baskets:299,chillers:3,freezers:1,manager:"Charbel Azzi",phone:"70304194",email:"Rawdat_Al_Hamama@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Hot Food","Nuts Counter"],comp:["—"],nearby:["—"]},
+  {name:"Leabaib 2",type:"Covered Mall",format:"Mini Hypers",opened:"16-May-2017",renovated:"—",hours:"07:00 AM – 12:00 MN",size:1966,back:390,parks:132,co:8,sco:0,trolleys:142,baskets:142,chillers:4,freezers:1,manager:"Shubash Adhikari",phone:"33533038",email:"Leabaib2@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Duhail Supermarket","Al Baladi Supermarket","Monoprix"],nearby:["Leabaib 1","Jeryan Jenaihat","Jeryan Nejaima","Azghawa Old"]},
+  {name:"Thakira",type:"Covered Mall",format:"Mini Hypers",opened:"30-May-2015",renovated:"08-Jan-2021",hours:"07:30 AM – 12:00 MN",size:1758,back:215,parks:124,co:6,sco:0,trolleys:87,baskets:211,chillers:6,freezers:1,manager:"Muhammed Anzar",phone:"74065040",email:"Thakhira@almeera.com.qa",profile:"Asian - Others",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg."],comp:["Grand Mart","Day Today","Habari Supermarket","Lulu Supermarket"],nearby:["Res. Complex 1"]},
+  {name:"Al Khor",type:"Covered Mall",format:"Mini Hypers",opened:"15-Feb-2018",renovated:"21-Nov-2020",hours:"07:30 AM – 12:00 MN",size:2691,back:670,parks:174,co:6,sco:0,trolleys:198,baskets:278,chillers:6,freezers:2,manager:"Mustafa Elsaid Abdelatif Goma",phone:"55125759",email:"alkhor@almeera.com.qa",profile:"Asian - Others",income:"Medium Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Hot Food","Nuts Counter","Flower Shop"],comp:["Lulu Hypermarket","Ansar Gallery","Safari","Kabayan Supermarket"],nearby:["—"]},
+  {name:"Umm Qarn",type:"Covered Mall",format:"Mini Hypers",opened:"26-Oct-2017",renovated:"—",hours:"08:00 AM – 12:00 MN",size:1755,back:494,parks:124,co:8,sco:0,trolleys:191,baskets:76,chillers:3,freezers:1,manager:"Mohamed Abdelfattah Abdelgawad Farahat",phone:"77570908",email:"Ummqarn@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Grand Hypermarket"],nearby:["—"]},
 ];
 
 const MC=["#1b6b30","#2e9e4f","#c9a23a","#b07d20"];
@@ -399,6 +467,9 @@ const f=(n,d=0)=>n==null?'—':n.toLocaleString('en-QA',{minimumFractionDigits:d
 const tc=v=>v==null?'':v>=0?'pos':'neg';
 const ti=v=>v==null?'':v>=0?'▲':'▼';
 const naV=(v,s)=>v!=null?`<span class="dval">${s}</span>`:'<span class="dval na">N/A</span>';
+const fx=(v,d=2,suf='')=>v==null?'—':v.toFixed(d)+suf;
+const anyNull=(S,k)=>S.some(s=>s[k]==null);
+const GREY='#8a9a8e';
 
 // ── Get active dataset ────────────────────────────────────
 function getStores(){
@@ -407,6 +478,7 @@ function getStores(){
 
 function getLabel(){ return MONTHS[CUR].label; }
 function getShort(){ return MONTHS[CUR].short; }
+function kpiTag(){ return CUR==='ytd'?'YTD':'YTD to '+getShort(); }   // KPI + category mix are year-to-date figures
 
 function mlabelHTML(){
   return `<div class="mlabel">📅 ${getLabel()}</div>`;
@@ -416,8 +488,8 @@ function mlabelHTML(){
 function setMonth(m){
   CUR=m;
   document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('active'));
-  const map={feb:0,mar:1,apr:2,jun:3,jul:4,aug:5,ytd:6};
-  document.querySelectorAll('.mbtn')[map[m]].classList.add('active');
+  const btn=document.querySelector(`.mbtn[onclick="setMonth('${m}')"]`);
+  if(btn)btn.classList.add('active');
   document.getElementById('activeBadge').textContent=getShort();
   buildAll();
 }
@@ -434,7 +506,7 @@ function buildArea(){
   const S=getStores();
   const totalSales=S.reduce((a,s)=>a+s.sales,0);
   const totalCC=S.reduce((a,s)=>a+s.cc,0);
-  const totalStaff=S.reduce((a,s)=>a+s.staff,0);
+  const totalStaff=anyNull(S,'staff')?null:S.reduce((a,s)=>a+s.staff,0);
   const totalSize=S.reduce((a,s)=>a+s.size,0);
   const bestGrowth=[...S].sort((a,b)=>b.salesLY-a.salesLY)[0];
   const worstGrowth=[...S].sort((a,b)=>a.salesLY-b.salesLY)[0];
@@ -444,7 +516,7 @@ function buildArea(){
   document.getElementById('areaKpis').innerHTML=`
     <div class="kcard wide"><div class="kico">💰</div><div><div class="klbl">Area Total Daily Sales</div><div class="kval">QAR ${f(totalSales,0)}</div><div class="ksub">Across all 10 stores</div></div></div>
     <div class="kcard"><div class="klbl">Total Daily Txns</div><div class="kval">${f(totalCC,0)}</div><div class="ksub">All stores combined</div></div>
-    <div class="kcard"><div class="klbl">Total Staff</div><div class="kval">${totalStaff}</div><div class="ksub">${getShort()} headcount</div></div>
+    <div class="kcard"><div class="klbl">Total Staff</div><div class="kval">${totalStaff==null?'—':totalStaff}</div><div class="ksub">${getShort()} headcount</div></div>
     <div class="kcard"><div class="klbl">Best Growth</div><div class="kval" style="font-size:16px;color:var(--gm)">${bestGrowth.name}</div><div class="ksub">${ti(bestGrowth.salesLY)}${Math.abs(bestGrowth.salesLY).toFixed(2)}% vs LY</div></div>
     <div class="kcard"><div class="klbl">Needs Attention</div><div class="kval" style="font-size:16px;color:var(--rt)">${worstGrowth.name}</div><div class="ksub">${ti(worstGrowth.salesLY)}${Math.abs(worstGrowth.salesLY).toFixed(2)}% vs LY</div></div>`;
 
@@ -453,7 +525,7 @@ function buildArea(){
     const rank=sorted.findIndex(x=>x.name===s.name)+1;
     return `<div class="scard" onclick="openStore(${i})">
       <div class="schdr">
-        <div><div class="scname">${s.name}</div><div class="scsub">${s.type} · ${s.size.toLocaleString()} sqm · ${s.staff} staff</div></div>
+        <div><div class="scname">${s.name}</div><div class="scsub">${s.type} · ${s.size.toLocaleString()} sqm${s.staff!=null?' · '+s.staff+' staff':''}</div></div>
         <div class="scrank">#${rank}</div>
       </div>
       <div class="scbody">
@@ -463,7 +535,7 @@ function buildArea(){
       </div>
       <div class="scft">
         <span class="vbadge ${tc(s.salesLY)}">${ti(s.salesLY)} ${Math.abs(s.salesLY).toFixed(2)}% vs LY</span>
-        <div class="awrap"><div class="albl">Availability ${s.avail.toFixed(2)}%</div><div class="abar"><div class="afill" style="width:${s.avail}%"></div></div></div>
+        <div class="awrap"><div class="albl">Availability ${fx(s.avail,2,'%')}</div><div class="abar"><div class="afill" style="width:${s.avail!=null?s.avail:0}%"></div></div></div>
         <div class="thint">👁 Details</div>
       </div>
     </div>`;
@@ -495,8 +567,8 @@ function buildSalesRanking(){
 
 function buildKpiTable(){
   const S=getStores();
-  const sorted=[...S].sort((a,b)=>b.avail-a.avail);
-  document.getElementById('kpiMonthLabel').innerHTML=mlabelHTML();
+  const sorted=[...S].sort((a,b)=>(b.avail!=null?b.avail:-1)-(a.avail!=null?a.avail:-1));
+  document.getElementById('kpiMonthLabel').innerHTML=mlabelHTML()+'<div style="font-size:12px;color:var(--tl);padding:2px 4px 8px">'+(anyNull(S,'avail')?'Availability and wastage are not loaded for this month. ':'')+(CUR==='ytd'?'All figures are year to date.':'Availability, wastage and category mix are YTD figures from the fact sheets; basket is for the month.')+'</div>';
   document.getElementById('kpiTable').innerHTML='<div class="lcard">'+
     `<div style="display:grid;grid-template-columns:1fr 54px 62px 56px 54px;gap:1px;padding:7px 12px;background:var(--gp);border-bottom:1px solid var(--br)">
       <div style="font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase">Store</div>
@@ -507,15 +579,15 @@ function buildKpiTable(){
     </div>`+
     sorted.map(s=>{
       const idx=S.findIndex(x=>x.name===s.name);
-      const ac=s.avail>=85?'#1b7a3a':s.avail>=80?'#9a7200':'#c0392b';
-      const wfc=s.wf>-4?'#1b7a3a':'#c0392b';
-      const wnfc=s.wnf>-0.25?'#1b7a3a':'#c0392b';
+      const ac=s.avail==null?GREY:s.avail>=85?'#1b7a3a':s.avail>=80?'#9a7200':'#c0392b';
+      const wfc=s.wf==null?GREY:s.wf>-4?'#1b7a3a':'#c0392b';
+      const wnfc=s.wnf==null?GREY:s.wnf>-0.25?'#1b7a3a':'#c0392b';
       return `<div style="display:grid;grid-template-columns:1fr 54px 62px 56px 54px;gap:1px;padding:8px 12px;border-bottom:1px solid #f0f5f1;cursor:pointer" onclick="openStore(${idx})">
         <div style="font-size:14px;font-weight:600;color:var(--gd);align-self:center">${s.name}</div>
-        <div style="font-size:14px;font-weight:700;color:${ac};text-align:center;align-self:center">${s.avail.toFixed(2)}%</div>
+        <div style="font-size:14px;font-weight:700;color:${ac};text-align:center;align-self:center">${fx(s.avail,2,'%')}</div>
         <div style="font-size:14px;font-weight:700;text-align:center;align-self:center">${s.basket.toFixed(2)}</div>
-        <div style="font-size:14px;font-weight:700;color:${wnfc};text-align:center;align-self:center">${s.wnf.toFixed(2)}%</div>
-        <div style="font-size:14px;font-weight:700;color:${wfc};text-align:center;align-self:center">${s.wf.toFixed(2)}%</div>
+        <div style="font-size:14px;font-weight:700;color:${wnfc};text-align:center;align-self:center">${fx(s.wnf,2,'%')}</div>
+        <div style="font-size:14px;font-weight:700;color:${wfc};text-align:center;align-self:center">${fx(s.wf,2,'%')}</div>
       </div>`;
     }).join('')+'</div>';
 }
@@ -545,7 +617,7 @@ function openStore(idx){
       <div class="sdname">${s.name}</div>
       <div class="mlabel" style="margin:0">${getShort()}</div>
     </div>
-    <div class="sdmeta"><span>🏗 ${s.type}</span><span>📅 ${s.opened}</span><span>🕐 ${s.hours}</span><span>👥 ${s.staff} staff</span></div>
+    <div class="sdmeta"><span>🏗 ${s.type}</span><span>📅 ${s.opened}</span><span>🕐 ${s.hours}</span>${s.staff!=null?'<span>👥 '+s.staff+' staff</span>':''}</div>
     <div class="sdkpis">
       <div class="sdkpi"><div class="sdkv">QAR ${(s.sales/1000).toFixed(1)}K</div><div class="sdkl">Daily Sales</div><div class="sdkt ${tc(s.salesLY)}">${ti(s.salesLY)} ${Math.abs(s.salesLY).toFixed(2)}% LY</div></div>
       <div class="sdkpi"><div class="sdkv">${f(s.cc,0)}</div><div class="sdkl">Transactions</div><div class="sdkt ${tc(s.ccLY)}">${s.ccLY!=null?ti(s.ccLY)+' '+Math.abs(s.ccLY).toFixed(2)+'% LY':'—'}</div></div>
@@ -569,15 +641,15 @@ function openStore(idx){
     </div>
 
     <div class="dsec">
-      <div class="dshdr"><div class="dsico">🎯</div><div class="dstit">KPIs · ${getShort()}</div></div>
-      <div class="drow"><span class="dlbl">Availability % (FMCG)</span><span class="dval ${s.avail>=85?'pos':s.avail>=80?'gold':'neg'}">${s.avail.toFixed(2)}%</span></div>
-      <div class="drow"><span class="dlbl">Wastage % (Non-Fresh)</span><span class="dval ${s.wnf>-0.25?'pos':'neg'}">${s.wnf.toFixed(2)}%</span></div>
-      <div class="drow"><span class="dlbl">Wastage % (Fresh)</span><span class="dval ${s.wf>-4?'pos':'neg'}">${s.wf.toFixed(2)}%</span></div>
+      <div class="dshdr"><div class="dsico">🎯</div><div class="dstit">KPIs · ${kpiTag()}</div></div>
+      <div class="drow"><span class="dlbl">Availability % (FMCG)</span><span class="dval ${s.avail==null?'na':s.avail>=85?'pos':s.avail>=80?'gold':'neg'}">${fx(s.avail,2,'%')}</span></div>
+      <div class="drow"><span class="dlbl">Wastage % (Non-Fresh)</span><span class="dval ${s.wnf==null?'na':s.wnf>-0.25?'pos':'neg'}">${fx(s.wnf,2,'%')}</span></div>
+      <div class="drow"><span class="dlbl">Wastage % (Fresh)</span><span class="dval ${s.wf==null?'na':s.wf>-4?'pos':'neg'}">${fx(s.wf,2,'%')}</span></div>
     </div>
 
     <div class="dsec">
-      <div class="dshdr"><div class="dsico">🥧</div><div class="dstit">Category Mix · ${getShort()}</div></div>
-      ${mix.map(m=>`<div class="mrow"><div class="mtop"><span class="mname">${m.l}</span><span class="mpct">${m.p.toFixed(2)}%</span></div><div class="mtrack"><div class="mfill" style="width:${m.p}%;background:${m.c}"></div></div></div>`).join('')}
+      <div class="dshdr"><div class="dsico">🥧</div><div class="dstit">Category Mix · ${kpiTag()}</div></div>
+      ${mix.map(m=>`<div class="mrow"><div class="mtop"><span class="mname">${m.l}</span><span class="mpct">${fx(m.p,2,'%')}</span></div><div class="mtrack"><div class="mfill" style="width:${m.p!=null?m.p:0}%;background:${m.c}"></div></div></div>`).join('')}
     </div>
 
     <div class="dsec">
@@ -596,17 +668,17 @@ function openStore(idx){
       <div class="igrid">
         <div class="icell"><div class="icv">${s.size.toLocaleString()}</div><div class="icl">Selling sqm</div></div>
         <div class="icell"><div class="icv">${s.back.toLocaleString()}</div><div class="icl">Back Area sqm</div></div>
-        <div class="icell"><div class="icv">${s.skus.toLocaleString()}</div><div class="icl">SKUs</div></div>
+        <div class="icell"><div class="icv">${s.skus!=null?s.skus.toLocaleString():'—'}</div><div class="icl">SKUs</div></div>
         <div class="icell"><div class="icv">${s.co}</div><div class="icl">Checkouts</div></div>
         <div class="icell"><div class="icv">${s.sco}</div><div class="icl">Self-CO</div></div>
         <div class="icell"><div class="icv">${s.parks}</div><div class="icl">Car Parks</div></div>
         <div class="icell"><div class="icv">${s.trolleys}</div><div class="icl">Trolleys</div></div>
         <div class="icell"><div class="icv">${s.baskets}</div><div class="icl">Baskets</div></div>
-        <div class="icell"><div class="icv">${s.staff}</div><div class="icl">Staff</div></div>
+        <div class="icell"><div class="icv">${s.staff!=null?s.staff:'—'}</div><div class="icl">Staff</div></div>
         <div class="icell"><div class="icv">${s.chillers}</div><div class="icl">Chillers</div></div>
         <div class="icell"><div class="icv">${s.freezers}</div><div class="icl">Freezers</div></div>
-        <div class="icell"><div class="icv">${s.totalShops}/${s.occShops}</div><div class="icl">Shops T/O</div></div>
-        <div class="icell"><div class="icv">${s.totalKiosks}/${s.occKiosks}</div><div class="icl">Kiosks T/O</div></div>
+        <div class="icell"><div class="icv">${s.totalShops!=null?s.totalShops+'/'+s.occShops:'—'}</div><div class="icl">Shops T/O</div></div>
+        <div class="icell"><div class="icv">${s.totalKiosks!=null?s.totalKiosks+'/'+s.occKiosks:'—'}</div><div class="icl">Kiosks T/O</div></div>
       </div>
     </div>
 
@@ -648,27 +720,29 @@ function openAreaDetail(){
   const tot=k=>S.reduce((a,s)=>a+s[k],0);
   const avg=k=>tot(k)/n;
   const avgN=k=>{const v=S.filter(s=>s[k]!=null);return v.length?v.reduce((a,s)=>a+s[k],0)/v.length:null;}
+  const nk=k=>anyNull(S,k);
 
   const totalSales=tot('sales'),avgSales=avg('sales');
   const totalCC=tot('cc'),avgCC=avg('cc');
   const avgBasket=avg('basket');
-  const wAvgBasket=S.reduce((a,s)=>a+(s.basket*s.sales),0)/totalSales;
-  const wAvgAvail=S.reduce((a,s)=>a+(s.avail*s.sales),0)/totalSales;
-  const avgAvail=avg('avail'),avgWnf=avg('wnf'),avgWf=avg('wf');
+  const wAvgBasket=S.reduce((a,s)=>a+(s.basket*s.cc),0)/totalCC;   // = area sales / area transactions
+  const areaLY=(totalSales/S.reduce((a,s)=>a+s.sales/(1+s.salesLY/100),0)-1)*100;   // area-weighted % vs LY
+  const wAvgAvail=nk('avail')?null:S.reduce((a,s)=>a+(s.avail*s.sales),0)/totalSales;
+  const avgAvail=nk('avail')?null:avg('avail'),avgWnf=nk('wnf')?null:avg('wnf'),avgWf=nk('wf')?null:avg('wf');
   const avgAgg=avgN('agg'),avgEcom=avgN('ecom'),avgScoPct=avgN('sco_pct');
-  const avgFmcg=avg('fmcg'),avgFresh=avg('fresh'),avgNF=avg('nonfood'),avgTam=avg('tam');
-  const wAvgFmcg=S.reduce((a,s)=>a+(s.fmcg*s.sales),0)/totalSales;
-  const wAvgFresh=S.reduce((a,s)=>a+(s.fresh*s.sales),0)/totalSales;
-  const wAvgNF=S.reduce((a,s)=>a+(s.nonfood*s.sales),0)/totalSales;
-  const wAvgTam=S.reduce((a,s)=>a+(s.tam*s.sales),0)/totalSales;
-  const totalStaff=tot('staff'),totalSize=tot('size'),totalBack=tot('back');
+  const avgFmcg=nk('fmcg')?null:avg('fmcg'),avgFresh=nk('fresh')?null:avg('fresh'),avgNF=nk('nonfood')?null:avg('nonfood'),avgTam=nk('tam')?null:avg('tam');
+  const wAvgFmcg=nk('fmcg')?null:S.reduce((a,s)=>a+(s.fmcg*s.sales),0)/totalSales;
+  const wAvgFresh=nk('fresh')?null:S.reduce((a,s)=>a+(s.fresh*s.sales),0)/totalSales;
+  const wAvgNF=nk('nonfood')?null:S.reduce((a,s)=>a+(s.nonfood*s.sales),0)/totalSales;
+  const wAvgTam=nk('tam')?null:S.reduce((a,s)=>a+(s.tam*s.sales),0)/totalSales;
+  const totalStaff=nk('staff')?null:tot('staff'),totalSize=tot('size'),totalBack=tot('back');
   const totalCO=SINFO.reduce((a,s)=>a+s.co,0),totalSCO=SINFO.reduce((a,s)=>a+s.sco,0);
   const totalParks=SINFO.reduce((a,s)=>a+s.parks,0),totalTrolleys=SINFO.reduce((a,s)=>a+s.trolleys,0);
   const totalBaskets=SINFO.reduce((a,s)=>a+s.baskets,0);
   const totalChillers=SINFO.reduce((a,s)=>a+s.chillers,0),totalFreezers=SINFO.reduce((a,s)=>a+s.freezers,0);
-  const totalShops=tot('totalShops'),occShops=tot('occShops');
-  const totalKiosks=tot('totalKiosks'),occKiosks=tot('occKiosks');
-  const skuMin=Math.min(...S.map(s=>s.skus)),skuMax=Math.max(...S.map(s=>s.skus));
+  const totalShops=nk('totalShops')?null:tot('totalShops'),occShops=nk('occShops')?null:tot('occShops');
+  const totalKiosks=nk('totalKiosks')?null:tot('totalKiosks'),occKiosks=nk('occKiosks')?null:tot('occKiosks');
+  const skuMin=nk('skus')?null:Math.min(...S.map(s=>s.skus)),skuMax=nk('skus')?null:Math.max(...S.map(s=>s.skus)),skuSum=nk('skus')?null:S.reduce((a,s)=>a+s.skus,0);
   const byIntensity=[...S].sort((a,b)=>b.intensity-a.intensity);
   const maxInt=byIntensity[0].intensity;
   const bestSales=[...S].sort((a,b)=>b.sales-a.sales)[0];
@@ -691,7 +765,7 @@ function openAreaDetail(){
       <div class="sdname">Area Cumulative Detail</div>
       <div class="mlabel" style="margin:0">${getShort()}</div>
     </div>
-    <div class="sdmeta"><span>🏪 10 Stores</span><span>👥 ${totalStaff} Staff</span><span>📐 ${totalSize.toLocaleString()} sqm</span></div>
+    <div class="sdmeta"><span>🏪 10 Stores</span><span>👥 ${totalStaff==null?'—':totalStaff} Staff</span><span>📐 ${totalSize.toLocaleString()} sqm</span></div>
     <div class="sdkpis">
       <div class="sdkpi"><div class="sdkv">QAR ${(totalSales/1000000).toFixed(2)}M</div><div class="sdkl">Total Daily Sales</div></div>
       <div class="sdkpi"><div class="sdkv">${f(totalCC,0)}</div><div class="sdkl">Total Daily Txns</div></div>
@@ -705,15 +779,15 @@ function openAreaDetail(){
       <div class="drow"><span class="dlbl">Highest Sales Store</span><span class="dval">${bestSales.name} · QAR ${(bestSales.sales/1000).toFixed(1)}K</span></div>
       <div class="drow"><span class="dlbl">Best Growth vs LY</span><span class="dval pos">${bestGrowth.name} · +${bestGrowth.salesLY.toFixed(2)}%</span></div>
       <div class="drow"><span class="dlbl">Needs Attention</span><span class="dval neg">${worstGrowth.name} · ${worstGrowth.salesLY.toFixed(2)}%</span></div>
-      <div class="drow"><span class="dlbl">Best Availability</span><span class="dval pos">${bestAvail.name} · ${bestAvail.avail.toFixed(2)}%</span></div>
-      <div class="drow"><span class="dlbl">Lowest Availability</span><span class="dval neg">${worstAvail.name} · ${worstAvail.avail.toFixed(2)}%</span></div>
+      <div class="drow"><span class="dlbl">Best Availability</span><span class="dval pos">${nk('avail')?'—':bestAvail.name+' · '+bestAvail.avail.toFixed(2)+'%'}</span></div>
+      <div class="drow"><span class="dlbl">Lowest Availability</span><span class="dval neg">${nk('avail')?'—':worstAvail.name+' · '+worstAvail.avail.toFixed(2)+'%'}</span></div>
       <div class="drow"><span class="dlbl">Highest Basket</span><span class="dval">${bestBasket.name} · QAR ${bestBasket.basket.toFixed(2)}</span></div>
     </div>
 
     <div class="dsec">
       <div class="dshdr"><div class="dsico">📊</div><div class="dstit">Sales Performance · ${getShort()}</div></div>
       <div class="drowD"><span class="dDlbl">Total / Avg Daily Sales</span><div class="dDvals"><span class="dDtot">QAR ${f(totalSales,2)}</span><span class="dDavg">Avg/store: QAR ${f(avgSales,2)}</span></div></div>
-      <div class="drowD"><span class="dDlbl">Avg Sales % vs LY</span><div class="dDvals"><span class="dDtot ${tc(S.reduce((a,s)=>a+s.salesLY,0)/n)}">${(S.reduce((a,s)=>a+s.salesLY,0)/n).toFixed(2)}%</span><span class="dDavg">Simple avg of 10 stores</span></div></div>
+      <div class="drowD"><span class="dDlbl">Avg Sales % vs LY</span><div class="dDvals"><span class="dDtot ${tc(S.reduce((a,s)=>a+s.salesLY,0)/n)}">${(S.reduce((a,s)=>a+s.salesLY,0)/n).toFixed(2)}%</span><span class="dDavg">Simple avg · Area-wtd: ${areaLY.toFixed(2)}%</span></div></div>
       <div class="drowD"><span class="dDlbl">Total / Avg Daily Transactions</span><div class="dDvals"><span class="dDtot">${f(totalCC,0)}</span><span class="dDavg">Avg/store: ${f(avgCC,0)}</span></div></div>
       <div class="drowD"><span class="dDlbl">Wtd / Simple Avg Basket</span><div class="dDvals"><span class="dDtot">QAR ${wAvgBasket.toFixed(2)}</span><span class="dDavg">Simple avg: QAR ${avgBasket.toFixed(2)}</span></div></div>
       <div class="drowD"><span class="dDlbl">Avg Intensity / sqm</span><div class="dDvals"><span class="dDtot">QAR ${f(avg('intensity'),2)}</span><span class="dDavg">Simple avg of 10 stores</span></div></div>
@@ -723,20 +797,20 @@ function openAreaDetail(){
     </div>
 
     <div class="dsec">
-      <div class="dshdr"><div class="dsico">🎯</div><div class="dstit">Area KPIs · ${getShort()}</div></div>
-      <div class="drowD"><span class="dDlbl">FMCG Availability %</span><div class="dDvals"><span class="dDtot" style="color:${wAvgAvail>=85?'#1b7a3a':wAvgAvail>=80?'#9a7200':'#c0392b'}">Wtd: ${wAvgAvail.toFixed(2)}%</span><span class="dDavg">Simple avg: ${avgAvail.toFixed(2)}%</span></div></div>
-      <div class="drowD"><span class="dDlbl">Wastage % (Non-Fresh)</span><div class="dDvals"><span class="dDtot" style="color:${avgWnf>-0.25?'#1b7a3a':'#c0392b'}">${avgWnf.toFixed(2)}%</span><span class="dDavg">Simple avg across 10 stores</span></div></div>
-      <div class="drowD"><span class="dDlbl">Wastage % (Fresh)</span><div class="dDvals"><span class="dDtot" style="color:${avgWf>-4?'#1b7a3a':'#c0392b'}">${avgWf.toFixed(2)}%</span><span class="dDavg">Simple avg across 10 stores</span></div></div>
+      <div class="dshdr"><div class="dsico">🎯</div><div class="dstit">Area KPIs · ${kpiTag()}</div></div>
+      <div class="drowD"><span class="dDlbl">FMCG Availability %</span><div class="dDvals"><span class="dDtot" style="color:${wAvgAvail==null?GREY:wAvgAvail>=85?'#1b7a3a':wAvgAvail>=80?'#9a7200':'#c0392b'}">Wtd: ${fx(wAvgAvail,2,'%')}</span><span class="dDavg">Simple avg: ${fx(avgAvail,2,'%')}</span></div></div>
+      <div class="drowD"><span class="dDlbl">Wastage % (Non-Fresh)</span><div class="dDvals"><span class="dDtot" style="color:${avgWnf==null?GREY:avgWnf>-0.25?'#1b7a3a':'#c0392b'}">${fx(avgWnf,2,'%')}</span><span class="dDavg">Simple avg across 10 stores</span></div></div>
+      <div class="drowD"><span class="dDlbl">Wastage % (Fresh)</span><div class="dDvals"><span class="dDtot" style="color:${avgWf==null?GREY:avgWf>-4?'#1b7a3a':'#c0392b'}">${fx(avgWf,2,'%')}</span><span class="dDavg">Simple avg across 10 stores</span></div></div>
     </div>
 
     <div class="dsec">
-      <div class="dshdr"><div class="dsico">🥧</div><div class="dstit">Category Mix — Weighted by Sales · ${getShort()}</div></div>
-      ${mixW.map(m=>`<div class="mrow"><div class="mtop"><span class="mname">${m.l}</span><span class="mpct">${m.p.toFixed(2)}%</span></div><div class="mtrack"><div class="mfill" style="width:${m.p}%;background:${m.c}"></div></div></div>`).join('')}
+      <div class="dshdr"><div class="dsico">🥧</div><div class="dstit">Category Mix — Weighted by Sales · ${kpiTag()}</div></div>
+      ${mixW.map(m=>`<div class="mrow"><div class="mtop"><span class="mname">${m.l}</span><span class="mpct">${fx(m.p,2,'%')}</span></div><div class="mtrack"><div class="mfill" style="width:${m.p!=null?m.p:0}%;background:${m.c}"></div></div></div>`).join('')}
     </div>
 
     <div class="dsec">
-      <div class="dshdr"><div class="dsico">🥧</div><div class="dstit">Category Mix — Simple Average · ${getShort()}</div></div>
-      ${mixS.map(m=>`<div class="mrow"><div class="mtop"><span class="mname">${m.l}</span><span class="mpct">${m.p.toFixed(2)}%</span></div><div class="mtrack"><div class="mfill" style="width:${m.p}%;background:${m.c}"></div></div></div>`).join('')}
+      <div class="dshdr"><div class="dsico">🥧</div><div class="dstit">Category Mix — Simple Average · ${kpiTag()}</div></div>
+      ${mixS.map(m=>`<div class="mrow"><div class="mtop"><span class="mname">${m.l}</span><span class="mpct">${fx(m.p,2,'%')}</span></div><div class="mtrack"><div class="mfill" style="width:${m.p!=null?m.p:0}%;background:${m.c}"></div></div></div>`).join('')}
     </div>
 
     <div class="dsec">
@@ -759,21 +833,21 @@ function openAreaDetail(){
         <div class="icell"><div class="icv">${totalSize.toLocaleString()}</div><div class="icl">Total Selling sqm</div></div>
         <div class="icell"><div class="icv">${Math.round(totalSize/n).toLocaleString()}</div><div class="icl">Avg Store sqm</div></div>
         <div class="icell"><div class="icv">${totalBack.toLocaleString()}</div><div class="icl">Total Back sqm</div></div>
-        <div class="icell"><div class="icv">${skuMin.toLocaleString()}</div><div class="icl">Min SKUs</div></div>
-        <div class="icell"><div class="icv">${skuMax.toLocaleString()}</div><div class="icl">Max SKUs</div></div>
-        <div class="icell"><div class="icv">${S.reduce((a,s)=>a+s.skus,0).toLocaleString()}</div><div class="icl">SKUs Combined</div></div>
+        <div class="icell"><div class="icv">${skuMin==null?'—':skuMin.toLocaleString()}</div><div class="icl">Min SKUs</div></div>
+        <div class="icell"><div class="icv">${skuMax==null?'—':skuMax.toLocaleString()}</div><div class="icl">Max SKUs</div></div>
+        <div class="icell"><div class="icv">${skuSum==null?'—':skuSum.toLocaleString()}</div><div class="icl">SKUs Combined</div></div>
         <div class="icell"><div class="icv">${totalCO}</div><div class="icl">Total Checkouts</div></div>
         <div class="icell"><div class="icv">${totalSCO}</div><div class="icl">Total Self-CO</div></div>
         <div class="icell"><div class="icv">${totalParks}</div><div class="icl">Car Parks</div></div>
         <div class="icell"><div class="icv">${totalTrolleys}</div><div class="icl">Trolleys</div></div>
         <div class="icell"><div class="icv">${totalBaskets}</div><div class="icl">Baskets</div></div>
-        <div class="icell"><div class="icv">${totalStaff}</div><div class="icl">Total Staff</div></div>
+        <div class="icell"><div class="icv">${totalStaff==null?'—':totalStaff}</div><div class="icl">Total Staff</div></div>
         <div class="icell"><div class="icv">${totalChillers}</div><div class="icl">Chillers</div></div>
         <div class="icell"><div class="icv">${totalFreezers}</div><div class="icl">Freezers</div></div>
-        <div class="icell"><div class="icv">${totalShops}/${occShops}</div><div class="icl">Shops T/O</div></div>
-        <div class="icell"><div class="icv">${totalKiosks}/${occKiosks}</div><div class="icl">Kiosks T/O</div></div>
-        <div class="icell"><div class="icv">${(totalStaff/totalSize*1000).toFixed(1)}</div><div class="icl">Staff/1K sqm</div></div>
-        <div class="icell"><div class="icv">${Math.round(totalSales/totalStaff).toLocaleString()}</div><div class="icl">Sales/Staff QAR</div></div>
+        <div class="icell"><div class="icv">${totalShops==null?'—':totalShops+'/'+occShops}</div><div class="icl">Shops T/O</div></div>
+        <div class="icell"><div class="icv">${totalKiosks==null?'—':totalKiosks+'/'+occKiosks}</div><div class="icl">Kiosks T/O</div></div>
+        <div class="icell"><div class="icv">${totalStaff==null?'—':(totalStaff/totalSize*1000).toFixed(1)}</div><div class="icl">Staff/1K sqm</div></div>
+        <div class="icell"><div class="icv">${totalStaff==null?'—':Math.round(totalSales/totalStaff).toLocaleString()}</div><div class="icl">Sales/Staff QAR</div></div>
       </div>
     </div>
 
@@ -809,6 +883,7 @@ function sv(name,updateTabs=true){
 
 // ── Init ──────────────────────────────────────────────────
 buildAll();
+document.getElementById('activeBadge').textContent=getShort();
 </script>
 </body>
 </html>
