@@ -42,6 +42,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--ow);color:var(--td);min-h
 .mbtn.ytd{background:rgba(46,158,79,.25);border-color:rgba(46,158,79,.4);color:#7effa0}
 .mbtn.ytd.active{background:linear-gradient(135deg,var(--gl),var(--gm));color:#fff;border-color:transparent}
 
+/* BUDGET TAB */
+.bftr{padding:8px 12px 10px;border-top:1px solid var(--br)}
+.brow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.blbl{font-size:10px;color:var(--tl);text-transform:uppercase;letter-spacing:.3px}
+.bpct{font-size:16px;font-weight:700;font-family:'Playfair Display',serif;line-height:1}
+.bpct.g{color:#1b7a3a}.bpct.a{color:#9a7200}.bpct.r{color:#c0392b}
+.bbar{position:relative;height:7px;background:var(--br);border-radius:4px}
+.bfill{height:100%;border-radius:4px}
+.bfill.g{background:linear-gradient(90deg,var(--gm),var(--gl))}
+.bfill.a{background:linear-gradient(90deg,#b07d20,var(--gold))}
+.bfill.r{background:linear-gradient(90deg,#a93226,var(--rt))}
+.bmark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--gd);border-radius:1px}
+.bbadges{display:flex;gap:6px;justify-content:space-between;margin-top:9px}
+.bnote{font-size:12px;color:var(--tl);padding:2px 4px 8px;line-height:1.4}
+
 /* NAV TABS */
 .navtabs{display:flex;background:#0a2e12;padding:0 14px 10px;gap:6px;overflow-x:auto;scrollbar-width:none}
 .navtabs::-webkit-scrollbar{display:none}
@@ -218,6 +233,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--ow);color:var(--td);min-h
   <div class="navtabs" id="navTabs">
     <button class="navtab active" onclick="sv('area')">🏪 Area</button>
     <button class="navtab" onclick="sv('sales')">💰 Sales</button>
+    <button class="navtab" onclick="sv('budget')">📈 Budget</button>
     <button class="navtab" onclick="sv('kpi')">🎯 KPIs</button>
     <button class="navtab" onclick="sv('contacts')">📞 Contacts</button>
   </div>
@@ -242,6 +258,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--ow);color:var(--td);min-h
 <div class="view" id="view-sales">
   <div id="salesMonthLabel"></div>
   <div id="salesRanking"></div>
+  <div class="bsafe"></div>
+</div>
+
+<div class="view" id="view-budget">
+  <div id="budgetMonthLabel"></div>
+  <div id="budgetBody"></div>
   <div class="bsafe"></div>
 </div>
 
@@ -459,6 +481,24 @@ const SINFO=[
   {name:"Umm Qarn",type:"Covered Mall",format:"Mini Hypers",opened:"26-Oct-2017",renovated:"—",hours:"08:00 AM – 12:00 MN",size:1755,back:494,parks:124,co:8,sco:0,trolleys:191,baskets:76,chillers:3,freezers:1,manager:"Mohamed Abdelfattah Abdelgawad Farahat",phone:"77570908",email:"Ummqarn@almeera.com.qa",profile:"Qatari",income:"High Income",depts:["Bakery & Pastry","Butchery","Deli & Dairy","Fishery","Fruits & Veg.","Nuts Counter"],comp:["Grand Hypermarket"],nearby:["—"]},
 ];
 
+// ── Budget vs Achieved vs Last Year — TOTAL sales, QAR (not daily average) ──
+// Source: each month's own sales file, sheet "Month to Date" (Jan–Oct); YTD = Oct file, sheet "Year to Date".
+// One row per store, same order as SINFO: [achieved, budget, last year]
+const BUDGET={
+  jan:[[15643744.69,16982332.43,15058553.36],[6984908.48,6818515.97,5156020.7],[4918835.21,5835036.75,5823922.1],[7060651.34,7083814.6,7235710.68],[7242244.86,7853413.05,6720299.71],[7929082.36,6708088.7,6031162.05],[3859137.57,3519731.78,3497413.49],[3627066.55,3598419.92,3472079.12],[4420409.38,4045741.18,3897163.45],[4853452.15,4444854.71,4367377.84]],
+  feb:[[16651695.75,14998004.31,14904750.51],[8396583.75,8889778.19,5840182.54],[5478149.32,5612526.3,5203645.89],[7644704.5,6846721.6,7392994.67],[8088679.11,8152051.01,7289387.98],[8864542.1,8376284.48,6670879.82],[4248198.73,4281092.01,3571229.41],[3968633.51,4142578.54,3471302.67],[5340242.19,4574783.44,4615200.02],[5464472.62,5072193.21,4612173.22]],
+  mar:[[16164586.4,14060845.11,16120882.04],[8691978.23,7468030.81,6611473.26],[5846568.23,5082212.77,5538355.95],[7893325.51,6872123.81,7371688.58],[9174709.11,7572127.68,7878326.6],[9189054.06,8068742.28,7062398.36],[4518019.91,3719001.3,3924130.37],[3991256.6,3567700.58,3882449.37],[5454458.41,4452069.63,4513131.6],[5766559.51,4310743.78,5015353.69]],
+  apr:[[14226566.75,13586138.73,13666685.35],[6829978.56,6927505.15,5728321.76],[4944066.59,4355156.49,4446002.08],[7056465.6,6446791.1,6224446.34],[7554424.81,6960478.66,6410784.04],[7855658.04,7471291.3,6434001.01],[3652687.85,3349990.05,3201996.27],[3424828.28,3354205.88,3249361.55],[4393839.12,3822910.33,3735676.35],[4735407.29,4292991.77,4169527.94]],
+  may:[[14623105.07,13799096.65,14058875.26],[6994319.21,6804835.1,5974435.76],[5028250.71,4706746.67,4826284.97],[7415375.34,6785342.22,6474286.73],[8147546.91,7410383.55,6668690.3],[8323866.44,7782871.9,6820910.06],[3810288.61,3692535.33,3518891.03],[3637525.64,3586832.12,3442795.47],[4952503.94,3950459.95,3873742.39],[4968002.28,4581120.58,4458603.07]],
+  jun:[[13898069.66,14398229.51,13836717.76],[6244634.04,6171633.81,6292240.95],[4288368.53,4678912.48,4683946.45],[6931637.13,6707613.62,6369989.9],[7199872.53,7153982.59,6398290.96],[7584686.19,7852032.95,6833488.49],[3434247.95,3521347.26,3337780.63],[3059661.4,3274888.07,3110785.4],[4201206.8,3981111.68,3790209.08],[4635298.04,4602576.01,4345441.42]],
+  jul:[[14068973.46,13537323.65,11927792.65],[6296666.13,8153638.41,5045210.5],[3912392.73,4072850.05,3913129.33],[6856920.67,6602116.66,5818074.59],[6556757.04,6931253.29,5800959.31],[6876435.64,7173301.2,5929405.6],[3260848.78,3245317.33,2894446.9],[2675660.56,2684093.0,2440299.69],[3941711.79,3411412.61,3033639.27],[4339190.44,4122186.15,3683654.5]],
+  aug:[[13208285.69,13775377.31,12167765.3],[6461610.07,8976889.74,5663457.42],[4113118.3,4234350.42,4121394.3],[6995001.56,7103697.79,6413476.48],[7014626.55,7167195.84,6483342.62],[7484031.97,8011535.05,6591269.61],[3475669.31,3471411.59,3177072.15],[2745905.46,2847129.51,2616393.72],[4119532.2,3870992.0,3376718.12],[4638974.53,4838932.76,4117100.52]],
+  sep:[[15121191.69,15406889.17,13857270.7],[7031395.01,10218266.36,6404093.75],[4455382.98,4659527.92,4462968.41],[7525032.92,7572397.0,6684900.51],[7501416.02,7668563.89,7055035.43],[7971903.27,8898525.8,7292882.67],[3535163.57,3966234.07,3585741.02],[3124274.52,3453179.07,3154622.8],[4592730.88,4346394.34,3854381.34],[4604304.33,5199189.02,4365596.44]],
+  oct:[[16271204.15,17551467.89,14477755.2],[7504218.28,7826820.48,6344039.19],[4968475.66,4938862.32,4736906.64],[8007541.7,7822121.64,6818496.96],[7843018.12,8105567.01,7321472.14],[8472961.5,9257743.12,7657116.77],[3740720.63,3984497.25,3660359.66],[3388409.17,3824576.35,3447702.54],[5027179.73,4803316.75,3975558.03],[4965483.99,5401573.62,4502501.51]],
+  ytd:[[149877423.31,145068084.59,139786212.09],[71436291.76,78413054.48,58881001.09],[47953608.26,48036877.51,47730822.57],[73386656.27,69220964.02,66631313.55],[76323295.06,74289439.83,67805506.23],[80552221.57,80065669.01,67053852.16],[37534982.91,36834708.18,34262655.91],[33643221.69,34311984.21,32241613.36],[46443814.44,41011788.61,38594320.74],[48971145.18,46601260.31,43503052.47]]
+};
+
+const months10=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct'];
 const MC=["#1b6b30","#2e9e4f","#c9a23a","#b07d20"];
 let CUR='feb';
 
@@ -498,6 +538,7 @@ function setMonth(m){
 function buildAll(){
   buildArea();
   buildSalesRanking();
+  buildBudget();
   buildKpiTable();
   buildContacts();
 }
@@ -563,6 +604,66 @@ function buildSalesRanking(){
       </div>
     </div>`;
   }).join('')+'</div>';
+}
+
+// ── Budget vs Achieved vs Last Year ───────────────────────
+const BUD_MAX=125;   // bar scale: 0–125% of budget, marker at 100%
+const budCls=p=>p>=100?'g':p>=95?'a':'r';
+const qm=v=>(v/1e6).toFixed(2);
+const qk=v=>Math.round(Math.abs(v)/1000).toLocaleString('en-QA');
+
+function budCard(name,sub,rank,r,onclick){
+  const pct=r.ach/r.bud*100, vly=(r.ach/r.ly-1)*100, gap=r.ach-r.bud, c=budCls(pct);
+  return `<div class="scard" ${onclick?`onclick="${onclick}"`:'style="cursor:default"'}>
+    <div class="schdr">
+      <div><div class="scname">${name}</div><div class="scsub">${sub}</div></div>
+      ${rank?`<div class="scrank">#${rank}</div>`:''}
+    </div>
+    <div class="scbody">
+      <div class="scm"><div class="scmv">${qm(r.bud)}M</div><div class="scml">Budget</div></div>
+      <div class="scm"><div class="scmv">${qm(r.ach)}M</div><div class="scml">Achieved</div></div>
+      <div class="scm"><div class="scmv">${qm(r.ly)}M</div><div class="scml">Last Year</div></div>
+    </div>
+    <div class="bftr">
+      <div class="brow"><span class="blbl">Achieved vs Budget</span><span class="bpct ${c}">${pct.toFixed(2)}%</span></div>
+      <div class="bbar"><div class="bfill ${c}" style="width:${Math.min(pct,BUD_MAX)/BUD_MAX*100}%"></div><div class="bmark" style="left:${100/BUD_MAX*100}%"></div></div>
+      <div class="bbadges">
+        <span class="vbadge ${tc(gap)}">${ti(gap)} QAR ${qk(gap)}K vs Budget</span>
+        <span class="vbadge ${tc(vly)}">${ti(vly)} ${Math.abs(vly).toFixed(2)}% vs LY</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildBudget(){
+  const R=BUDGET[CUR].map((r,i)=>({i,name:SINFO[i].name,ach:r[0],bud:r[1],ly:r[2],pct:r[0]/r[1]*100}));
+  const T=R.reduce((a,r)=>({ach:a.ach+r.ach,bud:a.bud+r.bud,ly:a.ly+r.ly}),{ach:0,bud:0,ly:0});
+  const ranked=[...R].sort((a,b)=>b.pct-a.pct);
+  const onB=R.filter(r=>r.pct>=100).length, aboveLY=R.filter(r=>r.ach>=r.ly).length;
+  const best=ranked[0], worst=ranked[ranked.length-1];
+
+  let note='Total sales for the period, not daily average. Bar scale 0–125% of budget; the dark line marks 100%. Green ≥100% · Amber 95–99.99% · Red &lt;95%.';
+  if(CUR==='ytd'){
+    const sumM=months10.reduce((a,m)=>a+BUDGET[m].reduce((x,r)=>x+r[1],0),0);
+    const d=T.bud-sumM;
+    note='Year to date (Jan–Oct): budget and last year are taken from the YTD sales report. '+
+      (Math.abs(d)>=1?`The 10 monthly budgets add up to QAR ${qm(sumM)}M (${d<0?'+':'−'}${qm(Math.abs(d))}M vs the YTD report); the whole difference is February. `:'')+
+      'Bar scale 0–125% of budget; the dark line marks 100%. Green ≥100% · Amber 95–99.99% · Red &lt;95%.';
+  }
+
+  document.getElementById('budgetMonthLabel').innerHTML=mlabelHTML()+`<div class="bnote">${note}</div>`;
+  document.getElementById('budgetBody').innerHTML=
+    budCard('Area Total · Hyper 2','All 10 stores combined',null,T,null)+
+    `<div class="kstrip" style="margin-top:12px">
+      <div class="kcard"><div class="klbl">On / Above Budget</div><div class="kval">${onB} of 10</div><div class="ksub">stores at 100% or more</div></div>
+      <div class="kcard"><div class="klbl">Above Last Year</div><div class="kval">${aboveLY} of 10</div><div class="ksub">stores with sales ≥ LY</div></div>
+      <div class="kcard"><div class="klbl">Best vs Budget</div><div class="kval" style="font-size:16px;color:var(--gm)">${best.name}</div><div class="ksub">${best.pct.toFixed(2)}% of budget</div></div>
+      <div class="kcard"><div class="klbl">Furthest Below</div><div class="kval" style="font-size:16px;color:${worst.pct>=100?'var(--gm)':'var(--rt)'}">${worst.name}</div><div class="ksub">${worst.pct.toFixed(2)}% of budget</div></div>
+    </div>
+    <div class="stitle">Stores ranked by budget achievement · Tap for details</div>
+    <div class="slist">`+
+    ranked.map((r,k)=>budCard(r.name,`${SINFO[r.i].type} · ${SINFO[r.i].size.toLocaleString()} sqm`,k+1,r,`openStore(${r.i})`)).join('')+
+    '</div>';
 }
 
 function buildKpiTable(){
@@ -874,11 +975,15 @@ function sv(name,updateTabs=true){
   document.getElementById('view-'+name).classList.add('active');
   if(updateTabs){
     document.querySelectorAll('.navtab').forEach(t=>t.classList.remove('active'));
-    const m={area:0,sales:1,kpi:2,contacts:3};
+    const m={area:0,sales:1,budget:2,kpi:3,contacts:4};
     if(m[name]!==undefined) document.querySelectorAll('.navtab')[m[name]].classList.add('active');
   }
   const hide=name==='store'||name==='areadetail';
   document.getElementById('navTabs').style.display=hide?'none':'flex';
+  if(!hide){   // five tabs are wider than a phone: keep the active one in view
+    const nt=document.getElementById('navTabs'), at=nt.querySelector('.navtab.active');
+    if(at) nt.scrollLeft=at.offsetLeft-(nt.clientWidth-at.offsetWidth)/2;
+  }
 }
 
 // ── Init ──────────────────────────────────────────────────
